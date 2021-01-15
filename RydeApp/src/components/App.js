@@ -2,15 +2,12 @@
  * @format
  * @flow strict-local
  */
-
+import 'react-native-gesture-handler';
 import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
 } from 'react-native';
 
 import {
@@ -20,21 +17,26 @@ import {
 import { Block, Card, theme } from 'galio-framework';
 import MapView from './MapView';
 import TravelList from './TravelList';
+import Home from '../screens/Home';
+import Chat from '../screens/Chat';
+import Profile from '../screens/Profile';
 
+
+const Tab = createBottomTabNavigator();
+const { Navigator, Screen } = Tab;
 
 
 const App: () => React$Node = () => {
 
   return (
-    // <>
-      <SafeAreaView style={{}}>
-      <StatusBar barStyle="dark-content" />
-        <View style={{width: "100%", height: "100%"}}>
-          <TravelList></TravelList>
-        </View>
+    <NavigationContainer>
+      <Navigator>
+        <Screen name="Home" component={Home}/>
+        <Screen name="Chat" component={Chat}/>
+        <Screen name="Profile" component={Profile}/>
 
-      </SafeAreaView>
-    // </>
+      </Navigator>
+    </NavigationContainer>
   );
 };
 

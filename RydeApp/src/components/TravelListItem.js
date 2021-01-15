@@ -1,6 +1,6 @@
 import { Block } from 'galio-framework';
 import React, { useEffect } from 'react';
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MapView from './MapView';
 import PropTypes from "prop-types";
 
@@ -29,10 +29,10 @@ const propTypes = {
         finishLocationName: PropTypes.string.isRequired,
     }).isRequired,
     departure: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.string]).isRequired,
-    bags: PropTypes.oneOf([1, 2, 3]).isRequired,
+    luggage: PropTypes.oneOf([1, 2, 3]).isRequired,
     price: PropTypes.oneOf([1, 2, 3]).isRequired,
     people: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7]).isRequired,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.string,
 };
 
 const defaultProps = {
@@ -48,7 +48,7 @@ const TravelListItem = ({
     userInfo,
     travelPoints,
     departure,
-    bags,
+    luggage,
     price,
     people,
     description
@@ -66,131 +66,133 @@ const TravelListItem = ({
         departureTime = `${date.getHours()}:${date.getMinutes()}`;
     }
     return (
-        <View style={styles.listItem}>
-            <Block
-                flex
-                card
-                top
-                height={310}
-                width={dimensions.width}
-            >
-                {/* Map */}
-                <View style={styles.mapContainer}>
-                    <MapView
-                        startPoint={startPoint}
-                        finishPoint={finishPoint} />
-                </View>
-                {/* Info */}
-                <View style={styles.listInfoContainer}>
-                    <View style={[styles.rowContainer, { justifyContent: "space-between" }]}>
-                        <View style={[styles.rowContainer, styles.userInfoContainer]}>
-                            <Image
-                                style={styles.profileImage}
-                                source={{ uri: userInfo.profilePicture }}
-                            />
-                            <Text>{userInfo.firstName} {userInfo.lastName}</Text>
-                        </View>
-                        <View style={[styles.rowContainer, styles.ratingContainer]}>
-                            {(() => {
-                                let a = [];
-                                for (let i = 0; i < userInfo.rating; i++) {
-                                    a = [...a, (
-                                        <Image
-                                            key={i}
-                                            style={styles.tinyIcon}
-                                            source={starIcon}
-                                        />
-                                    )];
-                                }
-                                return a;
-                            })()}
-                        </View>
+        <TouchableOpacity>
+            <View style={styles.listItem}>
+                <Block
+                    flex
+                    card
+                    top
+                    height={310}
+                    width={dimensions.width}
+                >
+                    {/* Map */}
+                    <View style={styles.mapContainer}>
+                        <MapView
+                            startPoint={startPoint}
+                            finishPoint={finishPoint} />
                     </View>
-                    <View style={[styles.rowContainer, { justifyContent: "space-between" }]}>
-                        <View style={[styles.rowContainer, styles.departureInfoContainer]}>
-                            <Text style={styles.normalText}>
-                                From
+                    {/* Info */}
+                    <View style={styles.listInfoContainer}>
+                        <View style={[styles.rowContainer, { justifyContent: "space-between" }]}>
+                            <View style={[styles.rowContainer, styles.userInfoContainer]}>
+                                <Image
+                                    style={styles.profileImage}
+                                    source={{ uri: userInfo.profilePicture }}
+                                />
+                                <Text>{userInfo.firstName} {userInfo.lastName}</Text>
+                            </View>
+                            <View style={[styles.rowContainer, styles.ratingContainer]}>
+                                {(() => {
+                                    let a = [];
+                                    for (let i = 0; i < userInfo.rating; i++) {
+                                        a = [...a, (
+                                            <Image
+                                                key={i}
+                                                style={styles.tinyIcon}
+                                                source={starIcon}
+                                            />
+                                        )];
+                                    }
+                                    return a;
+                                })()}
+                            </View>
+                        </View>
+                        <View style={[styles.rowContainer, { justifyContent: "space-between" }]}>
+                            <View style={[styles.rowContainer, styles.departureInfoContainer]}>
+                                <Text style={styles.normalText}>
+                                    From
                             <Text style={styles.boldText}> {startLocationName}</Text>
-                                <Text style={styles.normalText}> to </Text>
-                                <Text style={styles.boldText}>{finishLocationName}</Text>
-                            </Text>
+                                    <Text style={styles.normalText}> to </Text>
+                                    <Text style={styles.boldText}>{finishLocationName}</Text>
+                                </Text>
+                            </View>
+                            <View style={[styles.rowContainer, styles.departureInfoContainer]}>
+                                <Text style={styles.normalText}>
+                                    {departureDate}
+                                    <Text style={styles.boldText}> {departureTime}</Text>
+                                </Text>
+                            </View>
                         </View>
-                        <View style={[styles.rowContainer, styles.departureInfoContainer]}>
-                            <Text style={styles.normalText}>
-                                {departureDate}
-                                <Text style={styles.boldText}> {departureTime}</Text>
-                            </Text>
-                        </View>
-                    </View>
 
-                    <View style={[styles.rowContainer, { justifyContent: "space-between" }]}>
-                        {/* Bags container */}
-                        <View style={[styles.rowContainer, styles.sharedDriveInfoContainer]}>
-                            {(() => {
-                                let a = [];
-                                for (let i = 0; i < bags; i++) {
-                                    a = [...a, (
-                                        <Image
-                                            key={i}
-                                            style={styles.tinyIcon}
-                                            source={bagIcon}
-                                        />
-                                    )];
-                                }
-                                return a;
-                            })()}
-                        </View>
-                        {/*  */}
-                        {/* Price container */}
-                        <View style={[styles.rowContainer, styles.sharedDriveInfoContainer]}>
-                            {(() => {
-                                let a = [];
-                                for (let i = 0; i < price; i++) {
-                                    a = [...a, (
-                                        <Image
-                                            key={i}
-                                            style={styles.tinyIcon}
-                                            source={dollarIcon}
-                                        />
-                                    )];
-                                }
-                                return a;
-                            })()}
-                        </View>
-                        {/*  */}
-                        {/* People container */}
-                        <View style={[styles.rowContainer, styles.sharedDriveInfoContainer, { width: 180, justifyContent: "flex-end" }]}>
-                            {(() => {
-                                let a = [];
-                                for (let i = 0; i < people; i++) {
-                                    a = [...a, (
-                                        <Image
-                                            key={i}
-                                            style={styles.tinyIcon}
-                                            source={personIcon}
-                                        />
-                                    )]
-                                }
-                                return a;
-                            })()}
+                        <View style={[styles.rowContainer, { justifyContent: "space-between" }]}>
+                            {/* luggage container */}
+                            <View style={[styles.rowContainer, styles.sharedDriveInfoContainer]}>
+                                {(() => {
+                                    let a = [];
+                                    for (let i = 0; i < luggage; i++) {
+                                        a = [...a, (
+                                            <Image
+                                                key={i}
+                                                style={styles.tinyIcon}
+                                                source={bagIcon}
+                                            />
+                                        )];
+                                    }
+                                    return a;
+                                })()}
+                            </View>
+                            {/*  */}
+                            {/* Price container */}
+                            <View style={[styles.rowContainer, styles.sharedDriveInfoContainer]}>
+                                {(() => {
+                                    let a = [];
+                                    for (let i = 0; i < price; i++) {
+                                        a = [...a, (
+                                            <Image
+                                                key={i}
+                                                style={styles.tinyIcon}
+                                                source={dollarIcon}
+                                            />
+                                        )];
+                                    }
+                                    return a;
+                                })()}
+                            </View>
+                            {/*  */}
+                            {/* People container */}
+                            <View style={[styles.rowContainer, styles.sharedDriveInfoContainer, { width: 180, justifyContent: "flex-end" }]}>
+                                {(() => {
+                                    let a = [];
+                                    for (let i = 0; i < people; i++) {
+                                        a = [...a, (
+                                            <Image
+                                                key={i}
+                                                style={styles.tinyIcon}
+                                                source={personIcon}
+                                            />
+                                        )]
+                                    }
+                                    return a;
+                                })()}
+
+                            </View>
+                            {/*  */}
 
                         </View>
-                        {/*  */}
 
-                    </View>
-
-                    <View style={styles.rowContainer}>
-                        {/* TODO:
+                        <View style={styles.rowContainer}>
+                            {/* TODO:
                         Limit text to some characters 
                          */}
-                        <Text>
-                            {description}
-                        </Text>
+                            <Text>
+                                {description}
+                            </Text>
+                        </View>
                     </View>
-                </View>
-            </Block>
+                </Block>
 
-        </View>
+            </View>
+        </TouchableOpacity>
     )
 }
 
@@ -201,7 +203,7 @@ const styles = StyleSheet.create({
         alignContent: "flex-start",
         justifyContent: "flex-start",
         alignSelf: "center",
-        marginVertical: 2
+        // marginVertical: 2
     },
     mapContainer: { height: "40%", width: "100%" },
     userInfoContainer: {
