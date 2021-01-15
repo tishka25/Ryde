@@ -4,10 +4,19 @@ import { Block } from "galio-framework";
 
 const dimensions = Dimensions.get("window");
 
-const ChatListItem = () => {
+const ChatListItem = ({ navigation }) => {
+
+    function navigatoToChat(){
+        try{
+            navigation.navigate("ChatsRoot", {screen: "Chat"})
+        }catch(e){
+            console.error(e);
+        }
+    }
+
     return (
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={navigatoToChat}>
 
             <View style={styles.listItem}>
                 <Block

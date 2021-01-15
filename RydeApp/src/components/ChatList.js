@@ -14,7 +14,7 @@ const ChatList = (props) => {
                 style={styles.listContainer}
             >
                 {/* List components */}
-                <ChatListItem />
+                <ChatListItem {...props}/>
                 {/*  */}
                 <ChatListItem />
                 <ChatListItem />

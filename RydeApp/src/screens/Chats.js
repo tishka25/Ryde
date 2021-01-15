@@ -11,14 +11,13 @@ import ChatList from "../components/ChatList"
 
 
 
-const Chat = () => {
+const Chats = (props) => {
     return (
         <SafeAreaView style={{}}>
             <StatusBar barStyle="dark-content" />
             <View style={{ width: "100%", height: "100%" }}>
-                <Text>Char s edi koi</Text>
-                {/* <ChatList /> */}
-
+                {/* <Text>ZDR KO PR</Text> */}
+                <ChatList {...props}/>
             </View>
 
         </SafeAreaView>
@@ -26,4 +25,4 @@ const Chat = () => {
 }
 
 
-export default Chat;
+export default Chats;

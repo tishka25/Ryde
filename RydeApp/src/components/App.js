@@ -6,6 +6,8 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import {
   StyleSheet,
 } from 'react-native';
@@ -14,26 +16,68 @@ import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 
-import { Block, Card, theme } from 'galio-framework';
-import MapView from './MapView';
-import TravelList from './TravelList';
 import Home from '../screens/Home';
-import Chat from '../screens/Chat';
+import Chats from '../screens/Chats';
 import Profile from '../screens/Profile';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Chat from '../screens/Chat';
 
 
 const Tab = createBottomTabNavigator();
 const { Navigator, Screen } = Tab;
+
+const Stack = createStackNavigator();
+
+const ChatsRoot = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name={"Chats"} component={Chats}/>
+      <Stack.Screen name={"Chat"} component={Chat}/>
+      {/* <Stack.Screen /> */}
+    </Stack.Navigator>
+  );
+}
 
 
 const App: () => React$Node = () => {
 
   return (
     <NavigationContainer>
-      <Navigator>
-        <Screen name="Home" component={Home}/>
-        <Screen name="Chat" component={Chat}/>
-        <Screen name="Profile" component={Profile}/>
+      <Navigator
+        initialRouteName="Home"
+        tabBarOptions={{
+          activeTintColor: "#987bf3",
+          inactiveTintColor: "#dedede",
+          style: { backgroundColor: "#151415", padding: 4 }
+        }}
+      >
+        <Screen
+          name="Home"
+          component={Home}
+          options={{
+            showIcon: true,
+            tabBarIcon: ({ color }) => {
+              return <Icon name="road" size={24} color={color} />
+            }
+          }}
+        />
+        <Screen name="ChatsRoot" component={ChatsRoot}
+          options={{
+            showIcon: true,
+            tabBarIcon: ({ color }) => {
+              return <Icon name="comments" size={24} color={color} />
+            }
+          }}
+        />
+        <Screen name="Profile" component={Profile}
+          options={{
+            showIcon: true,
+            tabBarIcon: ({ color }) => {
+              return <Icon name="user" size={24} color={color} />
+            }
+          }}
+        />
+
 
       </Navigator>
     </NavigationContainer>
