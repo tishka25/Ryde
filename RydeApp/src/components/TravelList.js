@@ -18,9 +18,9 @@ const data = {
         finishLocationName: "Plovdiv"
     },
     departure: "Tue Jan 12 2021 20:30:59",
-    bags: 1,
+    bags: 3,
     price: 2,
-    people: 4,
+    people: 2,
     description: "Някакъв голям description на водача който ще кара. Колко бързо кара.Може нещо забавно да бъде. Свободен текст се пише тук."
 }
 
@@ -37,14 +37,14 @@ const TravelList = (props) => {
                 {/* List components */}
                 {(()=>{
                     let a = [];
-                    for(let i = 0; i< 10; i++){
+                    for(let i = 0; i< 5; i++){
                         a.push((
                             <TravelListItem 
                                 key={i}
                                 userInfo={data.userInfo}
                                 travelPoints={data.travelPoints}
                                 departure={data.departure}
-                                bags={data.bags}
+                                luggage={data.bags}
                                 price={data.price}
                                 people={data.people}
                                 description={data.description}
