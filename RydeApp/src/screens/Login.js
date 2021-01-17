@@ -11,7 +11,7 @@ import {
 import { TextInput } from "react-native-gesture-handler";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import requestHandler from "../utils/requestHandler";
-import { navigate } from "../utils/rootNavigation";
+import { goBack, navigate } from "../utils/rootNavigation";
 import userHandler from "../utils/userHandler";
 
 
@@ -29,6 +29,7 @@ const Login = (props) => {
         const data = await requestHandler("user", "get");
         console.log("User is:", data);
         await userHandler.setUser(data);
+        navigate("Home");
     }
 
 

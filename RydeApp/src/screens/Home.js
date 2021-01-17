@@ -22,7 +22,7 @@ const Home = (props) => {
         // console.log(offers)
         // console.log(requestHandler("offer", "getAll"))
         const response = await requestHandler("offer", "getAll");
-        // console.log("Offers:", response);
+        console.log("Offers:", response);
         setOffers(response);
     }
 
@@ -31,7 +31,7 @@ const Home = (props) => {
         if (offers.length < 1) {
             loadOffers();
         }
-    }, []);
+    }, [loadOffers]);
 
     function renderHeader() {
         return (

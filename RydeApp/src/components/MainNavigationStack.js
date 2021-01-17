@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Chat from '../screens/Chat';
 import TravelList from './TravelList';
 import Offer from '../screens/Offer';
+import userHandler from '../utils/userHandler';
 
 const Stack = createStackNavigator();
 
@@ -80,7 +81,7 @@ const MainNavigationStack = () => {
                     }
                 }}
             />
-            <Screen name="Profile" component={Profile}
+            <Screen name="Profile" component={(props)=> <Profile {...props} user={userHandler.getUser()}/>}
                 options={{
                     showIcon: true,
                     tabBarIcon: ({ color }) => {

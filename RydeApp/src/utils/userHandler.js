@@ -8,6 +8,7 @@ class UserHandler {
         this.init = this.init.bind(this);
         this.getCredentials = this.getCredentials.bind(this);
         this.setCredentials = this.setCredentials.bind(this);
+        this.delete = this.delete.bind(this);
     }
 
 
@@ -15,15 +16,17 @@ class UserHandler {
         try {
             const data = await AsyncStorage.getItem("login");
             this.loginData = Object.assign({}, JSON.parse(data));
+
             const userData = await AsyncStorage.getItem("user");
             this.user = Object.assign({}, JSON.parse(userData));
-            console.log("Loaded user data");
+
+            console.log("Loaded user data", this.user);
         } catch (error) {
             console.error(err);   
         }
     }
 
-    async getUser(){
+    getUser(){
         return Object.assign({}, this.user);
     }
 
@@ -48,6 +51,11 @@ class UserHandler {
         } catch (err) {
             console.error(err);
         }
+    }
+
+    async delete(){
+        await this.setCredentials({});
+        await this.setUser({});
     }
 }
 
