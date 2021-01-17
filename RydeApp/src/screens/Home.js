@@ -11,12 +11,12 @@ import {
 import TravelList from '../components/TravelList';
 
 
-const Home = () => {
+const Home = (props) => {
     return (
         <SafeAreaView style={{}}>
             <StatusBar barStyle="dark-content" />
             <View style={{ width: "100%", height: "100%" }}>
-                <TravelList></TravelList>
+                <TravelList {...props}/>
             </View>
 
         </SafeAreaView>

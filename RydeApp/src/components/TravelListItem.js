@@ -33,6 +33,8 @@ const propTypes = {
     price: PropTypes.oneOf([1, 2, 3]).isRequired,
     people: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7]).isRequired,
     description: PropTypes.string,
+    height: PropTypes.number,
+    cardView: PropTypes.bool,    
 };
 
 const defaultProps = {
@@ -51,7 +53,9 @@ const TravelListItem = ({
     luggage,
     price,
     people,
-    description
+    description,
+    cardView,
+    height
 }) => {
 
     const { startPoint, finishPoint, startLocationName, finishLocationName } = travelPoints;
@@ -60,20 +64,30 @@ const TravelListItem = ({
 
     let departureDate = "";
     let departureTime = "";
-    if (isValidDate(departure)) {
+    console.log(departure, isValidDate(new Date(departure)));
+    if (isValidDate(new Date(departure))) {
         const date = new Date(departure);
-        departureDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear().toString().slice(2, 4)} `;
-        departureTime = `${date.getHours()}:${date.getMinutes()}`;
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        if(hours < 10)
+            hours = "0" + hours;
+
+        if(minutes < 10)
+            minutes = "0" + minutes;
+        // departureDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear().toString().slice(2, 4)} `;
+        departureDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear().toString()} `;
+        departureTime = `${hours}:${minutes}`;
     }
+
+
     return (
-        <TouchableOpacity>
             <View style={styles.listItem}>
                 <Block
                     flex
-                    card
+                    card={cardView}
                     top
-                    height={310}
-                    width={dimensions.width}
+                    height={(height) ? height: 200}
+                    width={"100%"}
                 >
                     {/* Map */}
                     <View style={styles.mapContainer}>
@@ -192,18 +206,17 @@ const TravelListItem = ({
                 </Block>
 
             </View>
-        </TouchableOpacity>
     )
 }
 
 const styles = StyleSheet.create({
     listItem: {
         flex: 1,
-        width: "97%",
-        alignContent: "flex-start",
-        justifyContent: "flex-start",
+        width: "98%",
+        alignContent: "center",
+        justifyContent: "center",
         alignSelf: "center",
-        // marginVertical: 2
+        marginVertical: 2
     },
     mapContainer: { height: "40%", width: "100%" },
     userInfoContainer: {

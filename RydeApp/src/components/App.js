@@ -21,6 +21,8 @@ import Chats from '../screens/Chats';
 import Profile from '../screens/Profile';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Chat from '../screens/Chat';
+import TravelList from './TravelList';
+import Offer from '../screens/Offer';
 
 
 const Tab = createBottomTabNavigator();
@@ -31,11 +33,28 @@ const Stack = createStackNavigator();
 const ChatsRoot = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name={"Chats"} component={Chats}/>
-      <Stack.Screen name={"Chat"} component={Chat}/>
+      <Stack.Screen name={"Requests"} component={Chats} />
+      <Stack.Screen name={"Chat"} component={Chat} />
       {/* <Stack.Screen /> */}
     </Stack.Navigator>
   );
+}
+
+const OffersRoot = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName={"Home"}
+    >
+      <Stack.Screen
+        name={"Home"}
+        component={Home}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen name={"Offer"} component={Offer} />
+    </Stack.Navigator>
+  )
 }
 
 
@@ -48,13 +67,19 @@ const App: () => React$Node = () => {
         tabBarOptions={{
           activeTintColor: "#987bf3",
           inactiveTintColor: "#dedede",
-          style: { backgroundColor: "#151415", padding: 4 }
+          keyboardHidesTabBar: true,
+          style: {
+            backgroundColor: "#151415",
+            padding: 4,
+            height: 48
+          }
         }}
       >
         <Screen
-          name="Home"
-          component={Home}
+          name="OffersRoot"
+          component={OffersRoot}
           options={{
+            tabBarLabel: "Home",
             showIcon: true,
             tabBarIcon: ({ color }) => {
               return <Icon name="road" size={24} color={color} />
@@ -63,6 +88,7 @@ const App: () => React$Node = () => {
         />
         <Screen name="ChatsRoot" component={ChatsRoot}
           options={{
+            tabBarLabel: "Requests",
             showIcon: true,
             tabBarIcon: ({ color }) => {
               return <Icon name="comments" size={24} color={color} />

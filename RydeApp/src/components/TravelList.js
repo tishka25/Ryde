@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import PropTypes from "prop-types";
 import TravelListItem from './TravelListItem';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const data = {
     userInfo: {
@@ -17,15 +18,26 @@ const data = {
         startLocationName: "Sofia",
         finishLocationName: "Plovdiv"
     },
-    departure: "Tue Jan 12 2021 20:30:59",
+    departure: "2020-01-22T12:00:00.000+00:00",
     bags: 3,
     price: 2,
     people: 2,
-    description: "Някакъв голям description на водача който ще кара. Колко бързо кара.Може нещо забавно да бъде. Свободен текст се пише тук."
+    // description: "Някакъв голям description на водача който ще кара. Колко бързо кара.Може нещо забавно да бъде. Свободен текст се пише тук."
 }
 
 const TravelList = (props) => {
-    const { } = props;
+    const { navigation } = props;
+
+
+    
+    function navigateToOffer() {
+        try {
+            navigation.navigate("OffersRoot", { screen: "Offer" })
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
 
     return (
         <View style={{ flex: 1 }}>
@@ -35,20 +47,25 @@ const TravelList = (props) => {
                 style={styles.listContainer}
             >
                 {/* List components */}
-                {(()=>{
+                {(() => {
                     let a = [];
-                    for(let i = 0; i< 5; i++){
+                    for (let i = 0; i < 5; i++) {
                         a.push((
-                            <TravelListItem 
-                                key={i}
-                                userInfo={data.userInfo}
-                                travelPoints={data.travelPoints}
-                                departure={data.departure}
-                                luggage={data.bags}
-                                price={data.price}
-                                people={data.people}
-                                description={data.description}
-                            />
+                            <TouchableOpacity onPress={navigateToOffer}>
+                                <TravelListItem
+                                    {...props}
+                                    key={i}
+                                    userInfo={data.userInfo}
+                                    travelPoints={data.travelPoints}
+                                    departure={data.departure}
+                                    luggage={data.bags}
+                                    price={data.price}
+                                    people={data.people}
+                                    description={data.description}
+                                    cardView
+
+                                />
+                            </TouchableOpacity>
                         ));
                     }
                     return a;
@@ -62,7 +79,9 @@ const TravelList = (props) => {
 
 const styles = StyleSheet.create({
     listContainer: {
-        marginVertical: 12,
+        // marginVertical: 12,
+        // flex:1,
+        // justifyContent: "center"
     },
 
 });
