@@ -37,7 +37,7 @@ const Offer = ({ navigation, route }) => {
                     {...params}
                     price={map_values(params.price, 0, 100, 0, 3)}
                     panningEnabled
-                    height={600}
+                    height={800}
                 />
             </ScrollView>
             <SafeAreaView style={styles.contactContainer}>
