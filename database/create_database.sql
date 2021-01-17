@@ -398,21 +398,21 @@ INSERT INTO city(name) VALUES('Маджарово');
 INSERT INTO city(name) VALUES('Мелник');
 
 INSERT INTO public."user" (first_name, last_name, email, password, phone_number, rating, votes) 
-VALUES ('Peter', 'Pan', 'peterpan@gmail.com', 'password', '088 1234 123', '4.8', '36');
+VALUES ('Peter', 'Pan', 'peterpan@gmail.com', '$2y$10$5ZrnG3OhCNEs4f2uHyYBL.iDCa5nuYVVKe4SUBwmzJZckeSuOaE7m', '088 1234 123', '4.8', '36'); -- password
 INSERT INTO public."user" (first_name, last_name, email, password, phone_number, rating, votes) 
-VALUES ('Anna', 'Smith', 'anna.smith@gmail.com', 'password123', '088 2345 234', '5', '2');
+VALUES ('Anna', 'Smith', 'anna.smith@gmail.com', '$2y$10$715oKb5kzv44CTTlunvmD.K/vYDLa6BK1BlANAY2gverpHp/jJ4PS', '088 2345 234', '5', '2'); -- password123
 INSERT INTO public."user" (first_name, last_name, email, password, phone_number, rating, votes) 
-VALUES ('John', 'Snow', 'john.snow@yahoo.com', 'youKnowNothing', '088 4321 432', '3.6', '22');
+VALUES ('John', 'Snow', 'john.snow@yahoo.com', '$2a$10$7ZZ/2sj/8KzF4toRExUO9uD4XCNpiOfjupx9/BtG7MlwVij1LT5YK', '088 4321 432', '3.6', '22'); -- youKnowNothing
 INSERT INTO public."user" (first_name, last_name, email, password, phone_number, rating, votes) 
-VALUES ('Dave', 'Mustane', 'dave@megadeth', 'peaceSellsButWhosBuying', '088 5432 543', '4.6', '53');
+VALUES ('Dave', 'Mustane', 'dave@megadeth', '$2a$10$L3dgkbdDPgNs//fOSjZQu.ZuX7hwi326.u6WizFkQsEcV4/k.g8a2', '088 5432 543', '4.6', '53'); -- peaceSellsButWhosBuying
 INSERT INTO public."user" (first_name, last_name, email, password, phone_number, rating, votes) 
-VALUES ('Kirk', 'Hammet', 'kirk@metallica.com', 'creepingDeath', '088 4321 666', '4.2', '46');
+VALUES ('Kirk', 'Hammet', 'kirk@metallica.com', '$2a$10$xt.8fPkRoLgita6xSl5lKuCZAG3JHLc74ed.DjeEbe9Yn8fbhQtkK', '088 4321 666', '4.2', '46'); -- creepingDeath
 INSERT INTO public."user" (first_name, last_name, email, password, phone_number, rating, votes) 
-VALUES ('George', 'Orwell', 'gerorge.orwell@gmail.com', 'animalFarm', '088 1984 321', '3.2', '27');
+VALUES ('George', 'Orwell', 'gerorge.orwell@gmail.com', '$2a$10$b9CCw6TiIfOT8cRiQPzequF1pqU1RD0ZczKGkJAKe70rNNh0qFFii', '088 1984 321', '3.2', '27'); -- animalFarm
 INSERT INTO public."user" (first_name, last_name, email, password, phone_number, rating, votes) 
-VALUES ('Ray', 'Bradbury', 'ray.bradbury@bing.com', 'fahrenheit', '088 1234 451', '4.5', '66');
+VALUES ('Ray', 'Bradbury', 'ray.bradbury@bing.com', '$2a$10$8Jp.8BRUQEbgZOXhtM8wEuC1X/NgjNImBuoYJmxVmppl7gieeqoLW', '088 1234 451', '4.5', '66'); -- fahrenheit
 INSERT INTO public."user" (first_name, last_name, email, password, phone_number, rating, votes) 
-VALUES ('Peter', 'Jonhson', 'peter.john@gmail.com', 'complexPassword', '088 5678 567', '3.5', '12');
+VALUES ('Peter', 'Jonhson', 'peter.john@gmail.com', '$2a$10$0GO0tkQH1e90IVeD2D7hl.Ory67ywPsDoQOh4quXKPJqOnJlut9Ny', '088 5678 567', '3.5', '12'); -- complexPassword
 
 INSERT INTO public.offer (start_id, destination_id, price, date, luggage, capacity, user_id) 
 VALUES (1, 2, 25, '2020-01-20 17:00:00', 3, 4, 1);
