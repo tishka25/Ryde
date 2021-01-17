@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import PropTypes from "prop-types";
 import TravelListItem from './TravelListItem';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const data = {
     userInfo: {
@@ -25,7 +26,18 @@ const data = {
 }
 
 const TravelList = (props) => {
-    const { } = props;
+    const { navigation } = props;
+
+
+    
+    function navigateToOffer() {
+        try {
+            navigation.navigate("OffersRoot", { screen: "Offer" })
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
 
     return (
         <View style={{ flex: 1 }}>
@@ -35,20 +47,23 @@ const TravelList = (props) => {
                 style={styles.listContainer}
             >
                 {/* List components */}
-                {(()=>{
+                {(() => {
                     let a = [];
-                    for(let i = 0; i< 5; i++){
+                    for (let i = 0; i < 5; i++) {
                         a.push((
-                            <TravelListItem 
-                                key={i}
-                                userInfo={data.userInfo}
-                                travelPoints={data.travelPoints}
-                                departure={data.departure}
-                                luggage={data.bags}
-                                price={data.price}
-                                people={data.people}
-                                description={data.description}
-                            />
+                            <TouchableOpacity onPress={navigateToOffer}>
+                                <TravelListItem
+                                    {...props}
+                                    key={i}
+                                    userInfo={data.userInfo}
+                                    travelPoints={data.travelPoints}
+                                    departure={data.departure}
+                                    luggage={data.bags}
+                                    price={data.price}
+                                    people={data.people}
+                                    description={data.description}
+                                />
+                            </TouchableOpacity>
                         ));
                     }
                     return a;

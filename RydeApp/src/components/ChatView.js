@@ -19,18 +19,17 @@ const propTypes = {
         "senderId": PropTypes.number,
         "requestId": PropTypes.number
     })).isRequired,
+    userId: PropTypes.number.isRequired,
 }
 
-const userID = 1;
-
-const ChatView = ({ messages }) => {
+const ChatView = ({ messages, userId }) => {
 
     function renderMessages() {
         try {
             return messages.map((message) => {
                 return (
                     <View style={styles.messageContainer}>
-                        <View style={(message.senderId == userID) ? styles.localMessage : styles.participantMessage}>
+                        <View style={(message.senderId == userId) ? styles.localMessage : styles.participantMessage}>
                             <Text style={styles.mainText}>{message.content}</Text>
                         </View>
                     </View>

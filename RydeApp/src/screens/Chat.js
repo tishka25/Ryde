@@ -40,7 +40,7 @@ const Chat = ({ navigation, receipientName }) => {
             <StatusBar barStyle="dark-content" backgroundColor="white" />
             <View style={styles.rootView}>
                 <View style={styles.chatView}>
-                    <ChatView messages={messages} />
+                    <ChatView messages={messages} userId={1} />
                 </View>
                 <View style={styles.textInput}>
                     <TextInput value={message} onChange={setMessage}></TextInput>

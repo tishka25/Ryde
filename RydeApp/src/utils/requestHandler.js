@@ -63,9 +63,8 @@ const requestHandler = async (endPoint, type, data) => {
 
     const response = await fetch(_url, {
         method: apiType.method,
-        body: () => {
+        body: (() => {
             if (apiType.method == "POST") {
-
                 try {
                     return JSON.stringify(data);
                 } catch (error) {
@@ -73,7 +72,7 @@ const requestHandler = async (endPoint, type, data) => {
                     return "";
                 }
             }
-        }
+        })()
     });
     const json = await response.json();
     console.info("Response: ", json);

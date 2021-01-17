@@ -33,6 +33,7 @@ const propTypes = {
     price: PropTypes.oneOf([1, 2, 3]).isRequired,
     people: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7]).isRequired,
     description: PropTypes.string,
+    navigator: PropTypes.object
 };
 
 const defaultProps = {
@@ -51,7 +52,7 @@ const TravelListItem = ({
     luggage,
     price,
     people,
-    description
+    description,
 }) => {
 
     const { startPoint, finishPoint, startLocationName, finishLocationName } = travelPoints;
@@ -65,8 +66,9 @@ const TravelListItem = ({
         departureDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear().toString().slice(2, 4)} `;
         departureTime = `${date.getHours()}:${date.getMinutes()}`;
     }
+
+
     return (
-        <TouchableOpacity>
             <View style={styles.listItem}>
                 <Block
                     flex
@@ -192,7 +194,6 @@ const TravelListItem = ({
                 </Block>
 
             </View>
-        </TouchableOpacity>
     )
 }
 

@@ -21,6 +21,8 @@ import Chats from '../screens/Chats';
 import Profile from '../screens/Profile';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Chat from '../screens/Chat';
+import TravelList from './TravelList';
+import Offer from '../screens/Offer';
 
 
 const Tab = createBottomTabNavigator();
@@ -36,6 +38,23 @@ const ChatsRoot = () => {
       {/* <Stack.Screen /> */}
     </Stack.Navigator>
   );
+}
+
+const OffersRoot = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName={"Home"}
+    >
+      <Stack.Screen
+        name={"Home"}
+        component={Home}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen name={"Offer"} component={Offer} />
+    </Stack.Navigator>
+  )
 }
 
 
@@ -57,9 +76,10 @@ const App: () => React$Node = () => {
         }}
       >
         <Screen
-          name="Home"
-          component={Home}
+          name="OffersRoot"
+          component={OffersRoot}
           options={{
+            tabBarLabel: "Home",
             showIcon: true,
             tabBarIcon: ({ color }) => {
               return <Icon name="road" size={24} color={color} />
