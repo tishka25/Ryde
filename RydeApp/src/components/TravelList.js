@@ -10,11 +10,12 @@ import { map_values } from '../utils/utils';
 const propTypes = {
     navigation: PropTypes.object,
     offers: PropTypes.array,
+    header: PropTypes.any,
 }
 
 
 const TravelList = (props) => {
-    const { navigation, offers } = props;
+    const { navigation, offers, header } = props;
 
 
 
@@ -33,8 +34,10 @@ const TravelList = (props) => {
 
             <ScrollView
                 contentInsetAdjustmentBehavior="automatic"
+                stickyHeaderIndices={(header) ? [0]: null}
                 style={styles.listContainer}
             >
+                {header}
                 {/* List components */}
                 {(() => {
                     let a = [];
