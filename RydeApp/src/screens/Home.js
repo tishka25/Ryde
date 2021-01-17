@@ -35,7 +35,7 @@ const Home = (props) => {
 
     function renderHeader() {
         return (
-            <View style={{width: "100%", height: 80}}>
+            <View style={{ width: "100%", height: 80 }}>
                 <View style={styles.searchBoxContainer}>
                     <TextInput placeholder="Search" placeholderTextColor="#666" style={styles.searchBox} />
                 </View>

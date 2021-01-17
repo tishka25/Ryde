@@ -12,6 +12,7 @@ import {
 import PropTypes from "prop-types";
 import TravelListItem from "../components/TravelListItem";
 import { map_values } from "../utils/utils";
+import userHandler from "../utils/userHandler";
 
 
 const propTypes = {
@@ -28,7 +29,10 @@ const propTypes = {
 const Offer = ({ navigation, route }) => {
 
     const params = route.params;
-    console.log("Offer params:", params);
+
+    console.log("User:", userHandler.getUser());
+
+
     return (
 
         <View style={{ width: "100%", height: "100%" }}>
@@ -41,7 +45,7 @@ const Offer = ({ navigation, route }) => {
                 />
             </ScrollView>
             <SafeAreaView style={styles.contactContainer}>
-                <Button title={"Request ryde"} color={"#987bf3"}/>
+                <Button title={"Request ryde"} color={"#987bf3"} />
             </SafeAreaView>
         </View>
 

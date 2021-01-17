@@ -36,6 +36,7 @@ const App: () => React$Node = () => {
     //Load User data
     userHandler.init();
     //
+    // navigate("Login");
   }, []);
 
   return (

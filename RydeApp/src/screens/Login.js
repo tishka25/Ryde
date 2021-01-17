@@ -28,6 +28,7 @@ const Login = (props) => {
         console.log("KUREC", user, email, password);
         const data = await requestHandler("user", "get");
         console.log("User is:", data);
+        await userHandler.setUser(data);
     }
 
 

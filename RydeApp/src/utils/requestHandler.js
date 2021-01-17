@@ -90,10 +90,12 @@ const requestHandler = async (endPoint, type, data, onReject) => {
         const _url = `${rootEndPoint}${apiType.url}${extractUrlParams()}`;
         console.log("URL:", _url);
         
-
-        const basicAuthToken = btoa(`${userHandler.getCredentials().email}:${userHandler.getCredentials().password}`);
-
-        console.log("Token:", basicAuthToken);
+        if(Object.keys(userHandler.getCredentials()).length === 0){
+            await userHandler.init();
+        }
+        
+        const credentials = userHandler.getCredentials();
+        const basicAuthToken = btoa(`${credentials.email}:${credentials.password}`);
 
         const response = await fetch(_url, {
             method: apiType.method,

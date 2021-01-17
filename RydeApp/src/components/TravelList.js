@@ -21,7 +21,6 @@ const TravelList = (props) => {
 
     function navigateToOffer(params) {
         try {
-            console.log("Params before:", params)
             navigation.navigate("OffersRoot", { screen: "Offer", params })
         } catch (e) {
             console.error(e);

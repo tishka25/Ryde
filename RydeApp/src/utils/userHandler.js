@@ -14,16 +14,17 @@ class UserHandler {
     async init() {
         try {
             const data = await AsyncStorage.getItem("login");
-            this.loginData = Object.assign({}, data);
+            this.loginData = Object.assign({}, JSON.parse(data));
             const userData = await AsyncStorage.getItem("user");
-            this.user = Object.assign({}, userData);
+            this.user = Object.assign({}, JSON.parse(userData));
+            console.log("Loaded user data");
         } catch (error) {
             console.error(err);   
         }
     }
 
-    getUser(){
-        return this.user;
+    async getUser(){
+        return Object.assign({}, this.user);
     }
 
     async setUser(user){
@@ -36,11 +37,12 @@ class UserHandler {
     }
 
     getCredentials() {
-        return this.loginData;
+        return Object.assign({}, this.loginData);
     }
 
     async setCredentials(loginData) {
         try {
+            console.log("Saving:", loginData);
             await AsyncStorage.setItem('login', JSON.stringify(loginData));
             this.loginData = Object.assign({}, loginData);
         } catch (err) {
