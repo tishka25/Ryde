@@ -10,6 +10,7 @@ import Chat from '../screens/Chat';
 import TravelList from './TravelList';
 import Offer from '../screens/Offer';
 import userHandler from '../utils/userHandler';
+import CreateOffer from '../screens/CreateOffer';
 
 const Stack = createStackNavigator();
 
@@ -41,6 +42,7 @@ const OffersRoot = () => {
                 }}
             />
             <Stack.Screen name={"Offer"} component={Offer} />
+            <Stack.Screen name="CreateOffer" component={CreateOffer}/>
         </Stack.Navigator>
     )
 }

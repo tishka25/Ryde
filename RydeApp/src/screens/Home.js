@@ -12,6 +12,7 @@ import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import TravelList from '../components/TravelList';
 import requestHandler from '../utils/requestHandler';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { navigate } from '../utils/rootNavigation';
 
 
 const Home = (props) => {
@@ -51,7 +52,7 @@ const Home = (props) => {
                 <TravelList {...props} offers={offers} header={renderHeader()} />
                 {/* Add ofer */}
                 <View style={styles.addOfferContainer}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigate("CreateOffer")}>
                         <Icon name={"plus"} size={24} color={"white"} />
                     </TouchableOpacity>
                 </View>
