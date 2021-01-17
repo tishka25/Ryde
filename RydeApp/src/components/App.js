@@ -9,6 +9,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import {
+  LogBox,
   StyleSheet,
 } from 'react-native';
 
@@ -59,6 +60,8 @@ const OffersRoot = () => {
 
 
 const App: () => React$Node = () => {
+
+  LogBox.ignoreAllLogs(true);
 
   return (
     <NavigationContainer>
