@@ -33,7 +33,7 @@ const Stack = createStackNavigator();
 const ChatsRoot = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name={"Chats"} component={Chats} />
+      <Stack.Screen name={"Requests"} component={Chats} />
       <Stack.Screen name={"Chat"} component={Chat} />
       {/* <Stack.Screen /> */}
     </Stack.Navigator>
@@ -88,7 +88,7 @@ const App: () => React$Node = () => {
         />
         <Screen name="ChatsRoot" component={ChatsRoot}
           options={{
-            tabBarLabel: "Chats",
+            tabBarLabel: "Requests",
             showIcon: true,
             tabBarIcon: ({ color }) => {
               return <Icon name="comments" size={24} color={color} />

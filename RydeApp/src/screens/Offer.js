@@ -6,6 +6,7 @@ import {
     View,
     Text,
     StatusBar,
+    Button,
 } from 'react-native';
 
 import PropTypes from "prop-types";
@@ -62,6 +63,9 @@ const Offer = ({ }) => {
                     height={600}
                 />
             </ScrollView>
+            <SafeAreaView style={styles.contactContainer}>
+                <Button title={"Request ryde"} color={"#987bf3"}/>
+            </SafeAreaView>
         </View>
 
     );
@@ -70,7 +74,14 @@ const Offer = ({ }) => {
 Offer.propTypes = propTypes;
 
 const styles = StyleSheet.create({
-
+    contactContainer: {
+        flex: 1,
+        flexDirection: "column",
+        position: "absolute",
+        alignSelf: "center",
+        bottom: 8,
+        width: "95%"
+    }
 });
 
 
