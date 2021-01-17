@@ -11,28 +11,7 @@ import {
 
 import PropTypes from "prop-types";
 import TravelListItem from "../components/TravelListItem";
-
-
-const data = {
-    userInfo: {
-        firstName: "Teodor",
-        lastName: "Stanishev",
-        rating: 2,
-        profilePicture: "https://reactnative.dev/img/tiny_logo.png"
-    },
-    travelPoints: {
-        startPoint: [23.322263, 42.683654],
-        finishPoint: [24.731604, 42.141570],
-        startLocationName: "Sofia",
-        finishLocationName: "Plovdiv"
-    },
-    departure: "Tue Jan 12 2021 20:30:59",
-    bags: 3,
-    price: 2,
-    people: 2,
-    description: "Някакъв голям description на водача който ще кара. Колко бързо кара.Може нещо забавно да бъде. Свободен текст се пише тук."
-}
-
+import { map_values } from "../utils/utils";
 
 
 const propTypes = {
@@ -46,20 +25,18 @@ const propTypes = {
 }
 
 
-const Offer = ({ }) => {
+const Offer = ({ navigation, route }) => {
 
+    const params = route.params;
+    console.log("Offer params:", params);
     return (
 
         <View style={{ width: "100%", height: "100%" }}>
             <ScrollView>
                 <TravelListItem
-                    userInfo={data.userInfo}
-                    travelPoints={data.travelPoints}
-                    departure={data.departure}
-                    luggage={data.bags}
-                    price={data.price}
-                    people={data.people}
-                    description={data.description}
+                    {...params}
+                    price={map_values(params.price, 0, 100, 0, 3)}
+                    panningEnabled
                     height={600}
                 />
             </ScrollView>

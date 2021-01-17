@@ -28,7 +28,7 @@ const Chat = ({ navigation, receipientName }) => {
 
 
     const getMessages = async () => {
-        const m = await requestHandler("message", "getAllByRequestId", ["2"]);
+        const m = await requestHandler("message", "getByRequestId", ["2"]);
         setMessages(m);
     }
 
@@ -40,7 +40,7 @@ const Chat = ({ navigation, receipientName }) => {
 
     React.useEffect(() => {
         if (!messages.length) {
-            // getMessages();
+            getMessages();
         }
     }, []);
 
@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
     rootView: { width: "100%", height: "100%", flexDirection: "column", justifyContent: "space-between" },
     chatView: {
         // height: Dimensions.get("screen").height - 200,
-        // height: "92%",
-        height: "50%"
+        height: "92%",
+        // height: "50%"
     },
     textInput: { flex: 1, width: "80%" },
     textInputContainer: {

@@ -50,7 +50,7 @@ function generateGeoJSON(startPoint = [0, 0], finishPoint = [0, 0]) {
   }
 }
 
-const MapView = ({ startPoint, finishPoint }) => {
+const MapView = ({ startPoint, finishPoint, panningEnabled }) => {
 
   const features = generateGeoJSON(startPoint, finishPoint);
 
@@ -70,10 +70,10 @@ const MapView = ({ startPoint, finishPoint }) => {
     <View style={{ width: "100%", height: "100%" }}>
       <MapboxGL.MapView
         style={{ flex: 1 }}
-        zoomEnabled={false}
-        pitchEnabled={false}
-        scrollEnabled={false}
-        rotateEnabled={false}
+        zoomEnabled={panningEnabled}
+        pitchEnabled={panningEnabled}
+        scrollEnabled={panningEnabled}
+        rotateEnabled={panningEnabled}
         logoEnabled={false}
         attributionEnabled={false}
       >
@@ -115,7 +115,7 @@ const MapView = ({ startPoint, finishPoint }) => {
 MapView.propTypes = {
   startPoint: PropTypes.arrayOf(PropTypes.number).isRequired,
   finishPoint: PropTypes.arrayOf(PropTypes.number).isRequired,
-
+  panningEnabled: PropTypes.bool
 }
 
 export default MapView;

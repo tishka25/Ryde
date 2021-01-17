@@ -26,6 +26,7 @@ const ChatView = ({ messages, userId }) => {
 
     function renderMessages() {
         try {
+            console.log("Messages:", messages);
             return messages.map((message) => {
                 return (
                     <View style={styles.messageContainer}>

@@ -26,7 +26,7 @@ const requestMap = {
     "offer": {
         "getAll": {
             method: "GET",
-            urL: "offer/all"
+            url: "offer/all"
         },
         "getByUserId": {
             method: "GET",
@@ -64,8 +64,6 @@ const requestHandler = async (endPoint, type, data) => {
     }
     try {
         const apiType = requestMap[endPoint][type];
-
-
         const extractUrlParams = () => {
             if (apiType.params && Array.isArray(data)) {
                 let _params = "";
@@ -85,6 +83,10 @@ const requestHandler = async (endPoint, type, data) => {
 
         const response = await fetch(_url, {
             method: apiType.method,
+            headers: {
+                //TODO: Generate from user
+                "Authorization": "Basic YW5uYS5zbWl0aEBnbWFpbC5jb206cGFzc3dvcmQxMjM="
+            },
             body: (() => {
                 if (apiType.method == "POST") {
                     try {

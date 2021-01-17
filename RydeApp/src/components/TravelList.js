@@ -4,35 +4,24 @@ import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import PropTypes from "prop-types";
 import TravelListItem from './TravelListItem';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { map_values } from '../utils/utils';
 
-const data = {
-    userInfo: {
-        firstName: "Teodor",
-        lastName: "Stanishev",
-        rating: 2,
-        profilePicture: "https://reactnative.dev/img/tiny_logo.png"
-    },
-    travelPoints: {
-        startPoint: [23.322263, 42.683654],
-        finishPoint: [24.731604, 42.141570],
-        startLocationName: "Sofia",
-        finishLocationName: "Plovdiv"
-    },
-    departure: "2020-01-22T12:00:00.000+00:00",
-    bags: 3,
-    price: 2,
-    people: 2,
-    // description: "Някакъв голям description на водача който ще кара. Колко бързо кара.Може нещо забавно да бъде. Свободен текст се пише тук."
+
+const propTypes = {
+    navigation: PropTypes.object,
+    offers: PropTypes.array,
 }
 
+
 const TravelList = (props) => {
-    const { navigation } = props;
+    const { navigation, offers } = props;
 
 
-    
-    function navigateToOffer() {
+
+    function navigateToOffer(params) {
         try {
-            navigation.navigate("OffersRoot", { screen: "Offer" })
+            console.log("Params before:", params)
+            navigation.navigate("OffersRoot", { screen: "Offer", params })
         } catch (e) {
             console.error(e);
         }
@@ -49,26 +38,26 @@ const TravelList = (props) => {
                 {/* List components */}
                 {(() => {
                     let a = [];
-                    for (let i = 0; i < 5; i++) {
-                        a.push((
-                            <TouchableOpacity onPress={navigateToOffer}>
-                                <TravelListItem
-                                    {...props}
-                                    key={i}
-                                    userInfo={data.userInfo}
-                                    travelPoints={data.travelPoints}
-                                    departure={data.departure}
-                                    luggage={data.bags}
-                                    price={data.price}
-                                    people={data.people}
-                                    description={data.description}
-                                    cardView
-
-                                />
-                            </TouchableOpacity>
-                        ));
+                    if (offers) {
+                        console.log(offers);
+                        a = offers;
+                    } else {
+                        for (let i = 0; i < 5; i++) {
+                            a.push(data);
+                        }
                     }
-                    return a;
+                    return a.map(el => {
+                        return (<TouchableOpacity onPress={() => navigateToOffer(el)}>
+                            <TravelListItem
+                                key={new Date().now}
+                                {...el}
+                                price={map_values(el.price, 0, 100, 0, 3)}
+                                cardView
+                                panningEnabled={false}
+                            />
+                        </TouchableOpacity>
+                        );
+                    })
                 })()}
                 {/*  */}
 
@@ -76,6 +65,8 @@ const TravelList = (props) => {
         </View>
     );
 }
+
+TravelList.propTypes = propTypes;
 
 const styles = StyleSheet.create({
     listContainer: {

@@ -16,30 +16,35 @@ function isValidDate(d) {
 }
 
 const propTypes = {
-    userInfo: PropTypes.exact({
-        profilePicture: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+        picture: PropTypes.string.isRequired,
         firstName: PropTypes.string.isRequired,
         lastName: PropTypes.string.isRequired,
-        rating: PropTypes.oneOf([1, 2, 3, 4, 5]).isRequired,
+        rating: PropTypes.oneOf([0, 1, 2, 3, 4, 5]).isRequired,
     }).isRequired,
-    travelPoints: PropTypes.exact({
-        startPoint: PropTypes.arrayOf(PropTypes.number).isRequired,
-        finishPoint: PropTypes.arrayOf(PropTypes.number).isRequired,
-        startLocationName: PropTypes.string.isRequired,
-        finishLocationName: PropTypes.string.isRequired,
-    }).isRequired,
-    departure: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.string]).isRequired,
-    luggage: PropTypes.oneOf([1, 2, 3]).isRequired,
-    price: PropTypes.oneOf([1, 2, 3]).isRequired,
-    people: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7]).isRequired,
+    startCity: PropTypes.shape({
+        name: PropTypes.string,
+        latitude: PropTypes.number,
+        longitude: PropTypes.number
+    }),
+    destinationCity: PropTypes.shape({
+        name: PropTypes.string,
+        latitude: PropTypes.number,
+        longitude: PropTypes.number
+    }),
+    date: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.string]).isRequired,
+    luggage: PropTypes.oneOf([0, 1, 2, 3]).isRequired,
+    price: PropTypes.number.isRequired,
+    capacity: PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6, 7]).isRequired,
     description: PropTypes.string,
     height: PropTypes.number,
-    cardView: PropTypes.bool,    
+    cardView: PropTypes.bool,
+    panningEnabled: PropTypes.bool
 };
 
 const defaultProps = {
-    userInfo: {
-        profilePicture: "https://reactnative.dev/img/tiny_logo.png",
+    user: {
+        picture: "https://reactnative.dev/img/tiny_logo.png",
         firstName: "Teodor",
         lastName: "Stanishev",
         rating: 4
@@ -47,35 +52,35 @@ const defaultProps = {
 }
 
 const TravelListItem = ({
-    userInfo,
-    travelPoints,
-    departure,
+    user,
+    startCity,
+    destinationCity,
+    date,
     luggage,
     price,
-    people,
+    capacity,
     description,
     cardView,
-    height
+    height,
+    panningEnabled
 }) => {
 
-    const { startPoint, finishPoint, startLocationName, finishLocationName } = travelPoints;
 
     const dimensions = Dimensions.get("window");
 
     let departureDate = "";
     let departureTime = "";
-    console.log(departure, isValidDate(new Date(departure)));
-    if (isValidDate(new Date(departure))) {
-        const date = new Date(departure);
-        let hours = date.getHours();
-        let minutes = date.getMinutes();
+    if (isValidDate(new Date(date))) {
+        const d = new Date(date);
+        let hours = d.getHours();
+        let minutes = d.getMinutes();
         if(hours < 10)
             hours = "0" + hours;
 
         if(minutes < 10)
             minutes = "0" + minutes;
         // departureDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear().toString().slice(2, 4)} `;
-        departureDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear().toString()} `;
+        departureDate = `${d.getDate()}.${d.getMonth() + 1}.${d.getFullYear().toString()} `;
         departureTime = `${hours}:${minutes}`;
     }
 
@@ -92,8 +97,10 @@ const TravelListItem = ({
                     {/* Map */}
                     <View style={styles.mapContainer}>
                         <MapView
-                            startPoint={startPoint}
-                            finishPoint={finishPoint} />
+                            startPoint={[startCity.longitude, startCity.latitude]}
+                            finishPoint={[destinationCity.longitude, destinationCity.latitude]} 
+                            panningEnabled={panningEnabled}
+                            />
                     </View>
                     {/* Info */}
                     <View style={styles.listInfoContainer}>
@@ -101,14 +108,14 @@ const TravelListItem = ({
                             <View style={[styles.rowContainer, styles.userInfoContainer]}>
                                 <Image
                                     style={styles.profileImage}
-                                    source={{ uri: userInfo.profilePicture }}
+                                    source={{ uri: user.picture }}
                                 />
-                                <Text>{userInfo.firstName} {userInfo.lastName}</Text>
+                                <Text>{user.firstName} {user.lastName}</Text>
                             </View>
                             <View style={[styles.rowContainer, styles.ratingContainer]}>
                                 {(() => {
                                     let a = [];
-                                    for (let i = 0; i < userInfo.rating; i++) {
+                                    for (let i = 0; i < user.rating; i++) {
                                         a = [...a, (
                                             <Image
                                                 key={i}
@@ -125,9 +132,9 @@ const TravelListItem = ({
                             <View style={[styles.rowContainer, styles.departureInfoContainer]}>
                                 <Text style={styles.normalText}>
                                     From
-                            <Text style={styles.boldText}> {startLocationName}</Text>
+                            <Text style={styles.boldText}> {startCity.name}</Text>
                                     <Text style={styles.normalText}> to </Text>
-                                    <Text style={styles.boldText}>{finishLocationName}</Text>
+                                    <Text style={styles.boldText}>{destinationCity.name}</Text>
                                 </Text>
                             </View>
                             <View style={[styles.rowContainer, styles.departureInfoContainer]}>
@@ -177,7 +184,7 @@ const TravelListItem = ({
                             <View style={[styles.rowContainer, styles.sharedDriveInfoContainer, { width: 180, justifyContent: "flex-end" }]}>
                                 {(() => {
                                     let a = [];
-                                    for (let i = 0; i < people; i++) {
+                                    for (let i = 0; i < capacity; i++) {
                                         a = [...a, (
                                             <Image
                                                 key={i}
