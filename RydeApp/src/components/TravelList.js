@@ -18,11 +18,11 @@ const data = {
         startLocationName: "Sofia",
         finishLocationName: "Plovdiv"
     },
-    departure: "Tue Jan 12 2021 20:30:59",
+    departure: "2020-01-22T12:00:00.000+00:00",
     bags: 3,
     price: 2,
     people: 2,
-    description: "Някакъв голям description на водача който ще кара. Колко бързо кара.Може нещо забавно да бъде. Свободен текст се пише тук."
+    // description: "Някакъв голям description на водача който ще кара. Колко бързо кара.Може нещо забавно да бъде. Свободен текст се пише тук."
 }
 
 const TravelList = (props) => {
@@ -62,6 +62,8 @@ const TravelList = (props) => {
                                     price={data.price}
                                     people={data.people}
                                     description={data.description}
+                                    cardView
+
                                 />
                             </TouchableOpacity>
                         ));
@@ -77,7 +79,9 @@ const TravelList = (props) => {
 
 const styles = StyleSheet.create({
     listContainer: {
-        marginVertical: 12,
+        // marginVertical: 12,
+        // flex:1,
+        // justifyContent: "center"
     },
 
 });

@@ -59,6 +59,7 @@ const Offer = ({ }) => {
                     price={data.price}
                     people={data.people}
                     description={data.description}
+                    height={600}
                 />
             </ScrollView>
         </View>

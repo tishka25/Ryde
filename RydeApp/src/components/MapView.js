@@ -18,7 +18,7 @@ const customStyles = {
   },
 }
 
-const cameraPadding = 32;
+const cameraPadding = 16;
 
 function generateGeoJSON(startPoint = [0, 0], finishPoint = [0, 0]) {
   return {
