@@ -44,10 +44,6 @@ const TravelList = (props) => {
                     if (offers) {
                         console.log(offers);
                         a = offers;
-                    } else {
-                        for (let i = 0; i < 5; i++) {
-                            a.push(data);
-                        }
                     }
                     return a.map(el => {
                         return (<TouchableOpacity onPress={() => navigateToOffer(el)}>

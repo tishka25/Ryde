@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
         width: 58,
         height: 58,
         borderRadius: 100,
-        backgroundColor: "#987bf3"
+        backgroundColor: "#987bf3",
+        elevation: 10,
     },
     searchBoxContainer: {
         backgroundColor: "white",
