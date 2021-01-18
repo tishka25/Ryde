@@ -115,10 +115,10 @@ const Chat = ({ navigation, route }) => {
                             })()}
                         </View>
                     </View>
-                    <View style={{ width: "100%", justifyContent: "space-evenly", alignItems: "center", flexDirection: "row" }}>
+                    {/* <View style={{ width: "100%", justifyContent: "space-evenly", alignItems: "center", flexDirection: "row" }}>
                             <Button title={"Accept"} color={"green"}/>
                             <Button title={"Button"} color={"red"}/>
-                    </View>
+                    </View> */}
                 </View>
 
                 <View style={styles.chatView}>
