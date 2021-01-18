@@ -79,41 +79,48 @@ const Chat = ({ navigation, route }) => {
         <SafeAreaView style={{}}>
             <StatusBar barStyle="dark-content" backgroundColor="white" />
             <View style={styles.rootView}>
-                <View style={[styles.rowContainer, { justifyContent: "space-evenly", alignSelf: "center" }, styles.offerInfoContainer]}>
-                    {/* luggage container */}
-                    <View style={[styles.rowContainer, styles.sharedDriveInfoContainer]}>
-                        {(() => {
-                            let a = [];
-                            for (let i = 0; i < params.luggage; i++) {
-                                a = [...a, (
-                                    <Image
-                                        key={i}
-                                        style={styles.tinyIcon}
-                                        source={require("../assets/portfolio.png")}
-                                    />
-                                )];
-                            }
-                            return a;
-                        })()}
+                <View style={styles.offerInfoContainer}>
+                    <View style={[styles.rowContainer, { justifyContent: "space-between", alignSelf: "center", marginVertical: 8 }]}>
+                        {/* luggage container */}
+                        <View style={[styles.rowContainer, styles.sharedDriveInfoContainer]}>
+                            {(() => {
+                                let a = [];
+                                for (let i = 0; i < params.luggage; i++) {
+                                    a = [...a, (
+                                        <Image
+                                            key={i}
+                                            style={styles.tinyIcon}
+                                            source={require("../assets/portfolio.png")}
+                                        />
+                                    )];
+                                }
+                                return a;
+                            })()}
+                        </View>
+                        {/*  */}
+                        {/* Price container */}
+                        <View style={[styles.rowContainer, styles.sharedDriveInfoContainer]}>
+                            {(() => {
+                                let a = [];
+                                for (let i = 0; i < params.capacity; i++) {
+                                    a = [...a, (
+                                        <Image
+                                            key={i}
+                                            style={styles.tinyIcon}
+                                            source={require("../assets/user.png")}
+                                        />
+                                    )];
+                                }
+                                return a;
+                            })()}
+                        </View>
                     </View>
-                    {/*  */}
-                    {/* Price container */}
-                    <View style={[styles.rowContainer, styles.sharedDriveInfoContainer]}>
-                        {(() => {
-                            let a = [];
-                            for (let i = 0; i < params.capacity; i++) {
-                                a = [...a, (
-                                    <Image
-                                        key={i}
-                                        style={styles.tinyIcon}
-                                        source={require("../assets/user.png")}
-                                    />
-                                )];
-                            }
-                            return a;
-                        })()}
+                    <View style={{ width: "100%", justifyContent: "space-evenly", alignItems: "center", flexDirection: "row" }}>
+                            <Button title={"Accept"} color={"green"}/>
+                            <Button title={"Button"} color={"red"}/>
                     </View>
                 </View>
+
                 <View style={styles.chatView}>
                     <ChatView messages={messages} userId={userHandler.getUser().id} />
                 </View>
@@ -122,7 +129,7 @@ const Chat = ({ navigation, route }) => {
                     {/* <Button title={"Send"}/> */}
                     <TouchableOpacity onPress={sendMessage}>
                         {/* <Text>SEND</Text> */}
-                        <Icon name={"chevron-circle-up"} size={38} color={"#987bf3"} />
+                        <Icon name={"chevron-circle-up"} size={48} color={"#987bf3"} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -138,14 +145,15 @@ const styles = StyleSheet.create({
         marginTop: 0,
         top: 0,
         width: "100%",
-        height: 64,
+        height: 82,
         zIndex: 80,
         backgroundColor: "white",
         elevation: 2,
     },
-    rowContainer: { width: "100%", display: "flex", flexDirection: "row", alignItems: "center", marginVertical: 2},
+    rowContainer: { width: "100%", display: "flex", flexDirection: "row", alignItems: "center", marginVertical: 2 },
     sharedDriveInfoContainer: {
-        width: 20,
+        width: 100,
+        marginHorizontal: 32
     },
     tinyIcon: {
         width: 18,
