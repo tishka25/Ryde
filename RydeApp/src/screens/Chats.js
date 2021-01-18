@@ -16,17 +16,24 @@ import requestHandler from "../utils/requestHandler";
 const Chats = (props) => {
 
     const [requests, setRequests] = React.useState([]);
-    
-    async function loadRequest(){
+
+    async function loadRequest() {
         const responseOffer = await requestHandler("request", "getByOffer");
         const responseUser = await requestHandler("request", "getByUser");
 
+        const changedUserOffer = Object.assign([], await Promise.all(responseUser.map(async (offer, i) => {
+            const userInfoForOffer = await requestHandler("offer", "getByOfferId", [offer.offerId]);
+            return { ...offer, user: userInfoForOffer.user};
+        })
+        
+        ));
+
         // responseOffer.push(responseUser);
-        let response = responseOffer.concat(responseUser);
+        let response = responseOffer.concat(changedUserOffer);
 
-        console.log(responseUser, responseOffer, response);
+        console.log(responseUser, changedUserOffer, response);
 
-        if(JSON.stringify(response) !== JSON.stringify(requests))
+        if (JSON.stringify(response) !== JSON.stringify(requests))
             setRequests(response);
     }
 
@@ -42,7 +49,7 @@ const Chats = (props) => {
             <StatusBar barStyle="dark-content" />
             <View style={{ width: "100%", height: "100%" }}>
                 {/* <Text>ZDR KO PR</Text> */}
-                <ChatList {...props} requests={requests}/>
+                <ChatList {...props} requests={requests} />
             </View>
 
         </SafeAreaView>

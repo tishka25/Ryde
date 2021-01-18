@@ -37,6 +37,11 @@ const requestMap = {
             method: "GET",
             url: "offer/all"
         },
+        "getByOfferId": {
+            method: "GET",
+            url: "offer/getById",
+            params: ["id"]
+        },
         "getByUserId": {
             method: "GET",
             url: "offer",
