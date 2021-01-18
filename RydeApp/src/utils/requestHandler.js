@@ -63,6 +63,10 @@ const requestMap = {
             method: "GET",
             url: "request/findByOffer"
         },
+        "getByUser": {
+            method: "GET",
+            url: "request/findByUser"
+        },
         "create": {
             method: "POST",
             url: "request"

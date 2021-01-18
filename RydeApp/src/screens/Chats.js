@@ -18,7 +18,14 @@ const Chats = (props) => {
     const [requests, setRequests] = React.useState([]);
     
     async function loadRequest(){
-        const response = await requestHandler("request", "getByOffer");
+        const responseOffer = await requestHandler("request", "getByOffer");
+        const responseUser = await requestHandler("request", "getByUser");
+
+        // responseOffer.push(responseUser);
+        let response = responseOffer.concat(responseUser);
+
+        console.log(responseUser, responseOffer, response);
+
         if(JSON.stringify(response) !== JSON.stringify(requests))
             setRequests(response);
     }
