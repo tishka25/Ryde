@@ -26,6 +26,28 @@ const Register = (props) => {
                 </View> */}
 
                 <View style={styles.inputsContainer}>
+
+                    <View style={styles.inputContainer}>
+                        <TextInput placeholder="First Name" placeholderTextColor="#666" style={styles.inputBox} />
+                    </View>
+
+                    <View style={styles.inputContainer}>
+                        <TextInput placeholder="Last Name" placeholderTextColor="#666" style={styles.inputBox} />
+                    </View>
+                    
+                    <View style={styles.inputContainer}>
+                        <TextInput placeholder="First Name" placeholderTextColor="#666" style={styles.inputBox} />
+                    </View>
+                    
+                    <View style={styles.inputContainer}>
+                        <TextInput placeholder="Phone Number" keyboardType='numeric' placeholderTextColor="#666" style={styles.inputBox} />
+                    </View>
+
+                    <View style={styles.inputContainer}>
+                        <TextInput placeholder="Phone Number" keyboardType='numeric' placeholderTextColor="#666" style={styles.inputBox} />
+                    </View>
+                    
+
                     <View style={styles.inputContainer}>
                         <TextInput placeholder="E-Mail" placeholderTextColor="#666" style={styles.inputBox} />
                     </View>
