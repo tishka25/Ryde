@@ -14,10 +14,16 @@ import { navigate } from "../utils/rootNavigation";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { TextInput } from "react-native-gesture-handler";
 import DatePicker from 'react-native-datepicker';
+import requestHandler from "../utils/requestHandler";
 
 
 
 const CreateOffer = (props) => {
+
+
+    const [startCityMsg, setStartCityMsg] = React.useState("");
+    const [destinationCityMsg, setDestinationCityMsg] = React.useState("");
+
 
     const [startCity, setStartCity] = React.useState("");
     const [destinationCity, setDestinationCity] = React.useState("");
@@ -32,7 +38,9 @@ const CreateOffer = (props) => {
 
 
     async function handleCityName(text) {
-
+        const city = await requestHandler("city", "getByName", [text]);
+        console.log("City: ", city);
+        return false;
     }
 
     return (
@@ -45,12 +53,20 @@ const CreateOffer = (props) => {
                     <View style={[styles.rowContainer]}>
                         <View style={styles.infoContainer}>
                             <Text style={styles.infoTitle}>Start city</Text>
+                            <Text style={{ color: "red" }}>{startCityMsg}</Text>
                             <View style={styles.inputContainer}>
                                 <TextInput
                                     placeholder="City name"
-                                    placeholderTextColor="#666" style={styles.inputBox}
+                                    placeholderTextColor="#666"
+                                    style={styles.inputBox}
                                     value={startCity}
-                                    onChangeText={handleCityName}
+                                    onChangeText={async (t) => {
+                                        setStartCity(t);
+                                        const status = await handleCityName(t);
+                                        if (!status) {
+                                            setStartCityMsg("TI SI TUPAK")
+                                        }
+                                    }}
                                 />
                             </View>
                         </View>
@@ -60,12 +76,19 @@ const CreateOffer = (props) => {
                     <View style={[styles.rowContainer]}>
                         <View style={styles.infoContainer}>
                             <Text style={styles.infoTitle}>Destination city</Text>
+                            <Text style={{ color: "red" }}>{destinationCityMsg}</Text>
                             <View style={styles.inputContainer}>
                                 <TextInput
                                     placeholder="City name"
                                     placeholderTextColor="#666" style={styles.inputBox}
-                                    value={startCity}
-                                    onChangeText={handleCityName}
+                                    value={destinationCity}
+                                    onChangeText={async (t) => {
+                                        setDestinationCity(t);
+                                        const status = await handleCityName(t);
+                                        if (!status) {
+                                            setDestinationCityMsg("TI SI TUPAK")
+                                        }
+                                    }}
                                 />
                             </View>
                         </View>
@@ -192,7 +215,6 @@ const styles = StyleSheet.create({
         padding: 12,
         paddingLeft: 20,
         paddingTop: 14,
-
     },
 
 });
