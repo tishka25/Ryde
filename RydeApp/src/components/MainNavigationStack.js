@@ -46,7 +46,7 @@ const OffersRoot = () => {
             name="CreateOffer" 
             component={CreateOffer} 
             options={{
-                headerTitle: "Create Offer"
+                headerTitle: "Create Offer",
             }} />
         </Stack.Navigator>
     )
