@@ -42,7 +42,12 @@ const OffersRoot = () => {
                 }}
             />
             <Stack.Screen name={"Offer"} component={Offer} />
-            <Stack.Screen name="CreateOffer" component={CreateOffer}/>
+            <Stack.Screen 
+            name="CreateOffer" 
+            component={CreateOffer} 
+            options={{
+                headerTitle: "Create Offer"
+            }} />
         </Stack.Navigator>
     )
 }
@@ -83,7 +88,7 @@ const MainNavigationStack = () => {
                     }
                 }}
             />
-            <Screen name="Profile" component={(props)=> <Profile {...props} user={userHandler.getUser()}/>}
+            <Screen name="Profile" component={(props) => <Profile {...props} user={userHandler.getUser()} />}
                 options={{
                     showIcon: true,
                     tabBarIcon: ({ color }) => {
