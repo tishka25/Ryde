@@ -38,9 +38,9 @@ const Login = (props) => {
             <StatusBar barStyle="dark-content" />
             <View style={styles.rootView}>
                 <View style={styles.logoContainer}>
-                    <Icon name="road" size={100} />
-                    <Icon name="chevron-right" size={32} />
-                    <Icon name="chevron-right" size={32} />
+                    <Icon name="road" size={100} color={"white"}/>
+                    {/* <Icon name="chevron-right" size={32} />
+                    <Icon name="chevron-right" size={32} /> */}
                 </View>
 
                 <View style={styles.inputsContainer}>
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         height: "30%",
         borderRadius: 50,
         borderColor: "white",
-        borderWidth: 1,
+        // borderWidth: 1,
     },
     inputContainer: {
         backgroundColor: "white",
