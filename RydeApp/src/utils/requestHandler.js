@@ -1,3 +1,8 @@
+import { navigate } from "./rootNavigation";
+import Toast from 'react-native-simple-toast';
+import userHandler from "./userHandler";
+
+
 const rootEndPoint = "http://95.87.221.239:8000/api/";
 
 const requestMap = {
@@ -9,6 +14,10 @@ const requestMap = {
         },
     },
     "user": {
+        "get": {
+            method: "GET",
+            url: "user",
+        },
         "getByUserId": {
             method: "GET",
             url: "user",
@@ -33,7 +42,7 @@ const requestMap = {
             url: "offer",
             params: ["userId"]
         },
-        "createOffer": {
+        "create": {
             method: "POST",
             url: "offer",
         }
@@ -52,7 +61,7 @@ const requestMap = {
 }
 
 
-const requestHandler = async (endPoint, type, data) => {
+const requestHandler = async (endPoint, type, data, onReject) => {
     if (![
         "city",
         "message",
@@ -80,28 +89,55 @@ const requestHandler = async (endPoint, type, data) => {
         }
         const _url = `${rootEndPoint}${apiType.url}${extractUrlParams()}`;
         console.log("URL:", _url);
+        
+        if(Object.keys(userHandler.getCredentials()).length === 0){
+            await userHandler.init();
+        }
+        
+        const credentials = userHandler.getCredentials();
+        const basicAuthToken = btoa(`${credentials.email}:${credentials.password}`);
+
+        const body = (() => {
+            if (apiType.method == "POST") {
+                try {
+                    const dataStr = JSON.stringify(data);
+                    return dataStr
+                } catch (error) {
+                    console.error(error);
+                    return "";
+                }
+            }
+        })();
+
+        console.log("BODY:", body);
 
         const response = await fetch(_url, {
             method: apiType.method,
             headers: {
                 //TODO: Generate from user
-                "Authorization": "Basic YW5uYS5zbWl0aEBnbWFpbC5jb206cGFzc3dvcmQxMjM="
+                // "Authorization": "Basic YW5uYS5zbWl0aEBnbWFpbC5jb206cGFzc3dvcmQxMjM="
+                "Authorization": "Basic " + basicAuthToken,
+                'Content-Type': 'application/json'
             },
-            body: (() => {
-                if (apiType.method == "POST") {
-                    try {
-                        return JSON.stringify(data);
-                    } catch (error) {
-                        console.error(error);
-                        return "";
-                    }
-                }
-            })()
+            body
         });
-        const json = await response.json();
-        console.info("Response: ", json);
-        return json;
-    }catch(e){
+        //Unauthorized
+        if (response.status == 401) {
+            if(onReject){
+                onReject(response);
+            }else{
+                Toast.show("Not registered or logged in!");
+                navigate("Login");
+            }
+            return null;
+        } else if (response.status == 200) {
+            const json = await response.json();
+            console.info("Response: ", json);
+            return json;
+        }else{
+            throw new Error(`Unhandled rejection ${response.status} ${JSON.stringify(await response.json())}`);
+        }
+    } catch (e) {
         console.error("Could not find API type:", e);
         return null;
     }

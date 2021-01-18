@@ -3,9 +3,8 @@
  * @flow strict-local
  */
 import 'react-native-gesture-handler';
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React, { useEffect, useRef } from 'react';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import {
@@ -16,99 +15,37 @@ import {
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
-
-import Home from '../screens/Home';
-import Chats from '../screens/Chats';
-import Profile from '../screens/Profile';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Chat from '../screens/Chat';
-import TravelList from './TravelList';
-import Offer from '../screens/Offer';
+import Register from '../screens/Register';
+import Login from '../screens/Login';
+import MainNavigationStack from './MainNavigationStack';
+import { navigate, navigationRef } from '../utils/rootNavigation';
+import userHandler from '../utils/userHandler';
 
 
-const Tab = createBottomTabNavigator();
-const { Navigator, Screen } = Tab;
 
 const Stack = createStackNavigator();
 
-const ChatsRoot = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name={"Requests"} component={Chats} />
-      <Stack.Screen name={"Chat"} component={Chat} />
-      {/* <Stack.Screen /> */}
-    </Stack.Navigator>
-  );
-}
-
-const OffersRoot = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName={"Home"}
-    >
-      <Stack.Screen
-        name={"Home"}
-        component={Home}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen name={"Offer"} component={Offer} />
-    </Stack.Navigator>
-  )
-}
 
 
 const App: () => React$Node = () => {
-
+  //Disable logs in app
   LogBox.ignoreAllLogs(true);
+  //
+
+  useEffect(()=>{
+    //Load User data
+    userHandler.init();
+    //
+    // navigate("Login");
+  }, []);
 
   return (
-    <NavigationContainer>
-      <Navigator
-        initialRouteName="Home"
-        tabBarOptions={{
-          activeTintColor: "#987bf3",
-          inactiveTintColor: "#dedede",
-          keyboardHidesTabBar: true,
-          style: {
-            backgroundColor: "#151415",
-            padding: 4,
-            height: 48
-          }
-        }}
-      >
-        <Screen
-          name="OffersRoot"
-          component={OffersRoot}
-          options={{
-            tabBarLabel: "Home",
-            showIcon: true,
-            tabBarIcon: ({ color }) => {
-              return <Icon name="road" size={24} color={color} />
-            }
-          }}
-        />
-        <Screen name="ChatsRoot" component={ChatsRoot}
-          options={{
-            tabBarLabel: "Requests",
-            showIcon: true,
-            tabBarIcon: ({ color }) => {
-              return <Icon name="comments" size={24} color={color} />
-            }
-          }}
-        />
-        <Screen name="Profile" component={Profile}
-          options={{
-            showIcon: true,
-            tabBarIcon: ({ color }) => {
-              return <Icon name="user" size={24} color={color} />
-            }
-          }}
-        />
-
-
-      </Navigator>
+    <NavigationContainer ref={navigationRef}>
+      <Stack.Navigator mode="modal" headerMode="none">
+        <Stack.Screen name={"Main"} component={MainNavigationStack} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Register" component={Register} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

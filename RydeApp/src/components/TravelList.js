@@ -10,17 +10,17 @@ import { map_values } from '../utils/utils';
 const propTypes = {
     navigation: PropTypes.object,
     offers: PropTypes.array,
+    header: PropTypes.any,
 }
 
 
 const TravelList = (props) => {
-    const { navigation, offers } = props;
+    const { navigation, offers, header } = props;
 
 
 
     function navigateToOffer(params) {
         try {
-            console.log("Params before:", params)
             navigation.navigate("OffersRoot", { screen: "Offer", params })
         } catch (e) {
             console.error(e);
@@ -33,18 +33,16 @@ const TravelList = (props) => {
 
             <ScrollView
                 contentInsetAdjustmentBehavior="automatic"
+                stickyHeaderIndices={(header) ? [0]: null}
                 style={styles.listContainer}
             >
+                {header}
                 {/* List components */}
                 {(() => {
                     let a = [];
                     if (offers) {
                         console.log(offers);
                         a = offers;
-                    } else {
-                        for (let i = 0; i < 5; i++) {
-                            a.push(data);
-                        }
                     }
                     return a.map(el => {
                         return (<TouchableOpacity onPress={() => navigateToOffer(el)}>
