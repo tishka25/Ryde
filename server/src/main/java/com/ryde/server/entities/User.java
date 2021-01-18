@@ -1,7 +1,20 @@
 package com.ryde.server.entities;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import javax.persistence.*;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.Optional;
+import java.util.Set;
 
 @Entity
 @Table(name = "\"user\"", uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
@@ -11,21 +24,27 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @Column(name = "first_name")
     private String firstName;
 
+    @NotBlank
     @Column(name = "last_name")
     private String lastName;
 
+    @Email
     @Column(name = "email")
     private String email;
 
+    @NotBlank
+    @Size(min = 6)
     @Column(name = "password")
     private String password;
 
     @Column(name = "picture")
     private String picture;
 
+    @NotNull
     @Column(name = "phone_number")
     private String phoneNumber;
 

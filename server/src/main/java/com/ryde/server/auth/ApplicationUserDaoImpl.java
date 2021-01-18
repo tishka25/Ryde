@@ -1,31 +1,30 @@
 package com.ryde.server.auth;
 
 import com.ryde.server.entities.User;
-import com.ryde.server.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class ApplicationUserDaoImpl implements ApplicationUserDao{
-//    @PersistenceContext
-//    private EntityManager em;
-    @Autowired
-    UserRepository userRepository;
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     public Optional<ApplicationUser> selectApplicationUserByUsername(String username) {
-        Optional<User> user = userRepository.findUserByEmail(username);
+        List resultList =  em.createQuery("SELECT u FROM User u WHERE u.email = :username")
+                .setParameter("username", username).getResultList();
 
-        if (user.isEmpty())
+        if (resultList.isEmpty())
             return Optional.empty();
 
+        User resultUser = (User) resultList.get(0);
         ApplicationUser applicationUser = new ApplicationUser(
-                user.get().getPassword(),
-                user.get().getEmail(),
+                resultUser.getPassword(),
+                resultUser.getEmail(),
                 null,
                 true,
                 true,

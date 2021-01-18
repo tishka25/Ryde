@@ -1,7 +1,7 @@
 package com.ryde.server.entities;
 
 import javax.persistence.*;
-import java.beans.ConstructorProperties;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @Entity
@@ -12,28 +12,42 @@ public class Offer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "start_id")
     private City startCity;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "destination_id")
     private City destinationCity;
 
+    @Positive
+    @NotNull
     @Column(name = "price")
     private Integer price;
 
+    @Future
+    @NotNull
     @Column(name = "date")
     private Date date;
 
+    @Min(0)
+    @Max(3)
+    @NotNull
     @Column(name = "luggage")
     private Integer luggage;
 
+    @Min(0)
+    @Max(7)
+    @NotNull
     @Column(name = "capacity")
     private Integer capacity;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @NotNull
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Long getId() {
         return id;
@@ -58,22 +72,6 @@ public class Offer {
     public void setDestinationCity(City destinationCity) {
         this.destinationCity = destinationCity;
     }
-
-//    public Long getStartId() {
-//        return startId;
-//    }
-//
-//    public void setStartId(Long startId) {
-//        this.startId = startId;
-//    }
-//
-//    public Long getDestinationId() {
-//        return destinationId;
-//    }
-//
-//    public void setDestinationId(Long destinationId) {
-//        this.destinationId = destinationId;
-//    }
 
     public Integer getPrice() {
         return price;
@@ -107,11 +105,11 @@ public class Offer {
         this.capacity = capacity;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
