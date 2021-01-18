@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
         // height: Dimensions.get("screen").height - 200,
         height: "92%",
         // height: "50%"
+        paddingTop: 80
     },
     textInput: { flex: 1, width: "80%" },
     textInputContainer: {
