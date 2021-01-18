@@ -13,6 +13,8 @@ import PropTypes from "prop-types";
 import TravelListItem from "../components/TravelListItem";
 import { map_values } from "../utils/utils";
 import userHandler from "../utils/userHandler";
+import requestHandler from "../utils/requestHandler";
+import { navigate } from "../utils/rootNavigation";
 
 
 const propTypes = {
@@ -30,7 +32,34 @@ const Offer = ({ navigation, route }) => {
 
     const params = route.params;
 
-    console.log("User:", userHandler.getUser());
+    const user = userHandler.getUser()
+
+
+    console.log("User:", user, params);
+
+    // {
+    //     "luggage": 2,
+    //     "capacity": 2,
+    //     "user": {
+    //         id: 1
+    //     },
+    //     "offerId": 1
+    // }
+
+    async function handleRequestRyde(){
+        const data = {
+            luggage: params.luggage,
+            capacity: params.capacity,
+            user: {
+                id: user.id
+            },
+            offerId: params.id
+        }
+        console.log("Data to send:", data);
+        await requestHandler("request", "create", data);
+        navigate("ChatsRoot", { screen: "Requests" });
+    }
+
 
 
     return (
@@ -45,7 +74,7 @@ const Offer = ({ navigation, route }) => {
                 />
             </ScrollView>
             <SafeAreaView style={styles.contactContainer}>
-                <Button title={"Request ryde"} color={"#987bf3"} />
+                <Button title={"Request ryde"} color={"#987bf3"} onPress={handleRequestRyde}/>
             </SafeAreaView>
         </View>
 

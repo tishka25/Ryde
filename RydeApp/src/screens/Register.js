@@ -10,11 +10,33 @@ import {
 } from 'react-native';
 import { TextInput } from "react-native-gesture-handler";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import requestHandler from "../utils/requestHandler";
 import { navigate } from "../utils/rootNavigation";
 
 
 
 const Register = (props) => {
+
+    const [firstName, setFirstName] = React.useState("");
+
+    const [lastName, setLastName] = React.useState("");
+
+    const [password, setPassword] = React.useState("");
+
+    const [email, setEmail] = React.useState("");
+
+    const [phoneNumber, setPhoneNumber] = React.useState("");
+
+
+    async function handleRegister(){
+        const data = {
+            firstName, lastName, password, email, phoneNumber
+        };
+        console.log("Registering:", JSON.stringify(data));
+        await requestHandler("user", "register", JSON.stringify(data));
+    }
+
+
     return (
         <SafeAreaView style={{}}>
             <StatusBar barStyle="dark-content" />
@@ -28,36 +50,28 @@ const Register = (props) => {
                 <View style={styles.inputsContainer}>
 
                     <View style={styles.inputContainer}>
-                        <TextInput placeholder="First Name" placeholderTextColor="#666" style={styles.inputBox} />
+                        <TextInput placeholder="First Name" placeholderTextColor="#666" style={styles.inputBox} value={firstName} onChangeText={(t) => setFirstName(t)} />
                     </View>
 
                     <View style={styles.inputContainer}>
-                        <TextInput placeholder="Last Name" placeholderTextColor="#666" style={styles.inputBox} />
+                        <TextInput placeholder="Last Name" placeholderTextColor="#666" style={styles.inputBox} value={lastName} onChangeText={(t) => setLastName(t)}/>
                     </View>
                     
                     <View style={styles.inputContainer}>
-                        <TextInput placeholder="First Name" placeholderTextColor="#666" style={styles.inputBox} />
+                        <TextInput placeholder="Phone Number" keyboardType='numeric' placeholderTextColor="#666" style={styles.inputBox} value={phoneNumber} onChangeText={(t) => setPhoneNumber(t)}/>
                     </View>
-                    
+
+
                     <View style={styles.inputContainer}>
-                        <TextInput placeholder="Phone Number" keyboardType='numeric' placeholderTextColor="#666" style={styles.inputBox} />
+                        <TextInput placeholder="E-Mail" placeholderTextColor="#666" style={styles.inputBox} value={email} onChangeText={(t) => setEmail(t)}/>
                     </View>
 
                     <View style={styles.inputContainer}>
-                        <TextInput placeholder="Phone Number" keyboardType='numeric' placeholderTextColor="#666" style={styles.inputBox} />
-                    </View>
-                    
-
-                    <View style={styles.inputContainer}>
-                        <TextInput placeholder="E-Mail" placeholderTextColor="#666" style={styles.inputBox} />
-                    </View>
-
-                    <View style={styles.inputContainer}>
-                        <TextInput placeholder="Password" secureTextEntry placeholderTextColor="#666" style={styles.inputBox} />
+                        <TextInput placeholder="Password" secureTextEntry placeholderTextColor="#666" style={styles.inputBox} value={password} onChangeText={(t) => setPassword(t)} />
                     </View>
 
                     <View style={{ width: "95%" , marginTop: 32}}>
-                        <Button title="Register"/>
+                        <Button title="Register" onPress={handleRegister}/>
                     </View>
 
 

@@ -1,3 +1,4 @@
+import { useFocusEffect } from "@react-navigation/native";
 import * as React from "react";
 import {
     SafeAreaView,
@@ -34,20 +35,41 @@ const Chat = ({ navigation, route }) => {
 
     const getMessages = async () => {
         const m = await requestHandler("message", "getByRequestId", [params.id]);
-        setMessages(m);
+        if(JSON.stringify(m) !== JSON.stringify(messages))
+            setMessages(m);
     }
 
-    const sendMessage = () => {
+    const sendMessage = async () => {
         console.log("Sending message:", currentMessage);
+        // {
+        //     "content": "Ooookay... I guess I look through other offers...",
+        //     "senderId": 6,
+        //     "requestId": 2
+        // }
+    
+        const data = { content: currentMessage, senderId: userHandler.getUser().id, requestId: params.id};
+        await requestHandler("message", "create", data);
+
+        //Updates messages
+        await getMessages();
+        //
+
         //Message is send. Delete current input
         onChnageText("");
     }
 
-    React.useEffect(() => {
-        if (!messages.length) {
-            getMessages();
-        }
-    }, []);
+    let getMessagesTimeout = null;
+
+    useFocusEffect(
+        React.useCallback(() => {
+            clearTimeout(getMessagesTimeout);
+            getMessagesTimeout = setTimeout(async ()=>{
+                await getMessages();
+            }, 1000);
+
+            return () => console.log("UNFOCUS")
+        }, [messages])
+    );
 
 
 

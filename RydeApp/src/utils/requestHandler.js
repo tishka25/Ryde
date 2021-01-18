@@ -62,6 +62,10 @@ const requestMap = {
         "getByOffer": {
             method: "GET",
             url: "request/findByOffer"
+        },
+        "create": {
+            method: "POST",
+            url: "request"
         }
     }
 }
@@ -104,6 +108,20 @@ const requestHandler = async (endPoint, type, data, onReject) => {
         const credentials = userHandler.getCredentials();
         const basicAuthToken = btoa(`${credentials.email}:${credentials.password}`);
 
+        const body = (() => {
+            if (apiType.method == "POST") {
+                try {
+                    const dataStr = JSON.stringify(data);
+                    return dataStr
+                } catch (error) {
+                    console.error(error);
+                    return "";
+                }
+            }
+        })();
+
+        console.log("Body is :", body);
+
         const response = await fetch(_url, {
             method: apiType.method,
             headers: {
@@ -112,18 +130,10 @@ const requestHandler = async (endPoint, type, data, onReject) => {
                 "Authorization": "Basic " + basicAuthToken,
                 'Content-Type': 'application/json'
             },
-            body: (() => {
-                if (apiType.method == "POST") {
-                    try {
-                        const dataStr = JSON.stringify(data);
-                        return dataStr
-                    } catch (error) {
-                        console.error(error);
-                        return "";
-                    }
-                }
-            })()
+            body
         });
+
+        console.log("Response Status:", response.status);
         //Unauthorized
         if (response.status == 401) {
             if(onReject){
