@@ -13,26 +13,37 @@ import TravelList from '../components/TravelList';
 import requestHandler from '../utils/requestHandler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { navigate } from '../utils/rootNavigation';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 
 const Home = (props) => {
 
     const [offers, setOffers] = useState([]);
 
+    const navigation = useNavigation();
+
     async function loadOffers() {
         // console.log(offers)
         // console.log(requestHandler("offer", "getAll"))
         const response = await requestHandler("offer", "getAll");
         console.log("Offers:", response);
-        setOffers(response);
+        if (JSON.stringify(response) !== JSON.stringify(offers))
+            setOffers(response);
     }
 
+    async function focusHandler() {
+        console.log("FOCUSED ");
+        await loadOffers();
+    }
 
-    useEffect(() => {
-        if (offers.length < 1) {
-            loadOffers();
-        }
-    }, [loadOffers]);
+    useFocusEffect(
+        React.useCallback(() => {
+            focusHandler();
+
+            return () => console.log("UNFOCUS")
+        }, [offers])
+    );
+
 
     function renderHeader() {
         return (

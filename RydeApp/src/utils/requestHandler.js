@@ -42,7 +42,7 @@ const requestMap = {
             url: "offer",
             params: ["userId"]
         },
-        "createOffer": {
+        "create": {
             method: "POST",
             url: "offer",
         }
@@ -97,23 +97,29 @@ const requestHandler = async (endPoint, type, data, onReject) => {
         const credentials = userHandler.getCredentials();
         const basicAuthToken = btoa(`${credentials.email}:${credentials.password}`);
 
+        const body = (() => {
+            if (apiType.method == "POST") {
+                try {
+                    const dataStr = JSON.stringify(data);
+                    return dataStr
+                } catch (error) {
+                    console.error(error);
+                    return "";
+                }
+            }
+        })();
+
+        console.log("BODY:", body);
+
         const response = await fetch(_url, {
             method: apiType.method,
             headers: {
                 //TODO: Generate from user
                 // "Authorization": "Basic YW5uYS5zbWl0aEBnbWFpbC5jb206cGFzc3dvcmQxMjM="
-                "Authorization": "Basic " + basicAuthToken
+                "Authorization": "Basic " + basicAuthToken,
+                'Content-Type': 'application/json'
             },
-            body: (() => {
-                if (apiType.method == "POST") {
-                    try {
-                        return JSON.stringify(data);
-                    } catch (error) {
-                        console.error(error);
-                        return "";
-                    }
-                }
-            })()
+            body
         });
         //Unauthorized
         if (response.status == 401) {
@@ -128,8 +134,9 @@ const requestHandler = async (endPoint, type, data, onReject) => {
             const json = await response.json();
             console.info("Response: ", json);
             return json;
-        }else
-            throw new Error("Unhandled rejection");
+        }else{
+            throw new Error(`Unhandled rejection ${response.status} ${JSON.stringify(await response.json())}`);
+        }
     } catch (e) {
         console.error("Could not find API type:", e);
         return null;

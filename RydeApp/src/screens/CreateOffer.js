@@ -15,18 +15,22 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { TextInput } from "react-native-gesture-handler";
 import DatePicker from 'react-native-datepicker';
 import requestHandler from "../utils/requestHandler";
+import userHandler from "../utils/userHandler";
 
 
 
 const CreateOffer = (props) => {
+
+    const [startCity, setStartCity] = React.useState({});
+    const [destinationCity, setDestinationCity] = React.useState({});
 
 
     const [startCityMsg, setStartCityMsg] = React.useState("");
     const [destinationCityMsg, setDestinationCityMsg] = React.useState("");
 
 
-    const [startCity, setStartCity] = React.useState("");
-    const [destinationCity, setDestinationCity] = React.useState("");
+    const [startCityName, setStartCityName] = React.useState("");
+    const [destinationCityName, setDestinationCityName] = React.useState("");
 
     const [date, setDate] = React.useState(new Date());
 
@@ -36,11 +40,75 @@ const CreateOffer = (props) => {
 
     const [capacity, setCapacity] = React.useState(0);
 
+    let cityCheckerTimeout = null;
+
+    function handleStartCity(text) {
+        setStartCityName(text);
+        clearTimeout(cityCheckerTimeout);
+        cityCheckerTimeout = setTimeout(async () => {
+            const status = await handleCityName(text);
+            if (!status) {
+                setStartCityMsg("Invalid City name")
+            } else {
+                setStartCityMsg("");
+                setStartCity(status)
+            }
+        }, 500);
+    }
+
+    function handleDestinationCity(text) {
+        setDestinationCityName(text);
+        clearTimeout(cityCheckerTimeout);
+        cityCheckerTimeout = setTimeout(async () => {
+            const status = await handleCityName(text);
+            if (!status) {
+                setDestinationCityMsg("Invalid City name")
+            } else {
+                setDestinationCityMsg("");
+                setDestinationCity(status);
+            }
+        }, 500);
+    }
 
     async function handleCityName(text) {
         const city = await requestHandler("city", "getByName", [text]);
-        console.log("City: ", city);
-        return false;
+        if (city.error)
+            return false;
+        return city;
+    }
+
+    async function addOfferHandler() {
+        if (destinationCityMsg != "" || startCityMsg != "") {
+            return;
+        }
+        const data = {
+            startCity, destinationCity, luggage, price, capacity,
+            user: {
+                id: userHandler.getUser().id
+            },
+            date: (() => {
+                let hours = date.getHours();
+                let minutes = date.getMinutes();
+                let months = date.getMonth() + 1;
+                let day = date.getDate();
+                if (hours < 10)
+                    hours = "0" + hours;
+
+                if (minutes < 10)
+                    minutes = "0" + minutes;
+
+                if(months < 10)
+                    months = "0" + months;
+
+                if(day < 10)
+                    day = "0" + day;
+
+                return `${date.getFullYear().toString()}-${months}-${day}T${hours}:${minutes}`;
+            })()
+        }
+        console.log("Data to send:", data);
+        await requestHandler("offer", "create", data);
+        navigate("Home");
     }
 
     return (
@@ -59,14 +127,8 @@ const CreateOffer = (props) => {
                                     placeholder="City name"
                                     placeholderTextColor="#666"
                                     style={styles.inputBox}
-                                    value={startCity}
-                                    onChangeText={async (t) => {
-                                        setStartCity(t);
-                                        const status = await handleCityName(t);
-                                        if (!status) {
-                                            setStartCityMsg("TI SI TUPAK")
-                                        }
-                                    }}
+                                    value={startCityName}
+                                    onChangeText={handleStartCity}
                                 />
                             </View>
                         </View>
@@ -81,14 +143,8 @@ const CreateOffer = (props) => {
                                 <TextInput
                                     placeholder="City name"
                                     placeholderTextColor="#666" style={styles.inputBox}
-                                    value={destinationCity}
-                                    onChangeText={async (t) => {
-                                        setDestinationCity(t);
-                                        const status = await handleCityName(t);
-                                        if (!status) {
-                                            setDestinationCityMsg("TI SI TUPAK")
-                                        }
-                                    }}
+                                    value={destinationCityName}
+                                    onChangeText={handleDestinationCity}
                                 />
                             </View>
                         </View>
@@ -101,24 +157,18 @@ const CreateOffer = (props) => {
                                 <DatePicker
                                     style={styles.inputBox}
                                     date={date} // Initial date from state
-                                    mode="date" // The enum of date, datetime and time
-                                    placeholder="select date"
-                                    format="DD-MM-YYYY"
+                                    mode="datetime" // The enum of date, datetime and time
+                                    placeholder="Select date"
+                                    format="DD-MM-YYYY HH:MM"
                                     minDate="01-01-2016"
                                     confirmBtnText="Confirm"
                                     cancelBtnText="Cancel"
                                     customStyles={{
                                         dateIcon: {
                                             display: 'none',
-                                            // position: 'absolute',
-                                            // left: 0,
-                                            // top: 4,
-                                            // marginLeft: 0,
                                         },
                                         dateInput: {
                                             borderWidth: 0,
-
-                                            // marginLeft: 36,
                                         },
                                     }}
                                     onDateChange={(date) => {
@@ -136,7 +186,7 @@ const CreateOffer = (props) => {
                         <View style={styles.infoContainer}>
                             <Text style={styles.infoTitle}>Price</Text>
                             <View style={styles.inputContainer}>
-                                <TextInput placeholder="Leva" keyboardType='numeric' placeholderTextColor="#666" style={styles.inputBox} value={price} onChangeText={(t) => setPrice(T)} />
+                                <TextInput placeholder="Leva" keyboardType='numeric' placeholderTextColor="#666" style={styles.inputBox} value={price} onChangeText={(t) => setPrice(parseInt(t))} />
                             </View>
                         </View>
                     </View>
@@ -145,7 +195,7 @@ const CreateOffer = (props) => {
                         <View style={styles.infoContainer}>
                             <Text style={styles.infoTitle}>Luggage</Text>
                             <View style={styles.inputContainer}>
-                                <TextInput placeholder="Bags" keyboardType='numeric' placeholderTextColor="#666" style={styles.inputBox} value={luggage} onChangeText={(t) => setLuggage(T)} />
+                                <TextInput placeholder="Bags" keyboardType='numeric' placeholderTextColor="#666" style={styles.inputBox} value={luggage} onChangeText={(t) => setLuggage(parseInt(t))} />
                             </View>
                         </View>
                     </View>
@@ -157,14 +207,14 @@ const CreateOffer = (props) => {
                         <View style={styles.infoContainer}>
                             <Text style={styles.infoTitle}>Capacity</Text>
                             <View style={styles.inputContainer}>
-                                <TextInput placeholder="People" keyboardType='numeric' placeholderTextColor="#666" style={styles.inputBox} value={capacity} onChangeText={(t) => setCapacity(T)} />
+                                <TextInput placeholder="People" keyboardType='numeric' placeholderTextColor="#666" style={styles.inputBox} value={capacity} onChangeText={(t) => setCapacity(parseInt(t))} />
                             </View>
                         </View>
                     </View>
 
 
                     <View style={{ width: "95%", marginVertical: 32, alignSelf: "center" }}>
-                        <Button title="Create" color={"#987bf3"} />
+                        <Button title="Create" color={"#987bf3"} onPress={addOfferHandler} />
                     </View>
 
                 </ScrollView>
