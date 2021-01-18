@@ -1,22 +1,15 @@
 import * as React from "react";
 import { Dimensions, StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { Block } from "galio-framework";
+import { navigate } from "../utils/rootNavigation";
 
 const dimensions = Dimensions.get("window");
 
-const ChatListItem = ({ navigation }) => {
-
-    function navigatoToChat(){
-        try{
-            navigation.navigate("ChatsRoot", {screen: "Chat"})
-        }catch(e){
-            console.error(e);
-        }
-    }
+const ChatListItem = ({ request }) => {
 
     return (
 
-        <TouchableOpacity onPress={navigatoToChat}>
+        <TouchableOpacity>
 
             <View style={styles.listItem}>
                 <Block
@@ -29,14 +22,20 @@ const ChatListItem = ({ navigation }) => {
                     <View style={[styles.rowContainer, { height: "100%" }]}>
                         <Image
                             style={styles.profileImage}
-                            source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
+                            source={(()=> {
+                                if(request.user.picture){
+                                    return { uri: request.user.picture };
+                                }else{
+                                    return require("../assets/defaultPicture.jpg")
+                                }
+                            })()}
                         />
                         <View style={styles.columnContainer}>
-                            <Text style={styles.mainText}>Victor Naychev</Text>
-                            <Text style={styles.subText}>Zdr ko pr</Text>
+                            <Text style={styles.mainText}>{request.user.firstName} {request.user.lastName}</Text>
+                            {/* <Text style={styles.subText}>Zdr ko pr</Text> */}
                         </View>
                         <View style={[styles.columnContainer, { flexDirection: "row", justifyContent: "flex-end", marginHorizontal: 8, alignItems: "center" }]}>
-                            <Text style={styles.subText}>12:23</Text>
+                            <Text style={styles.subText}></Text>
                         </View>
                     </View>
                 </Block>

@@ -20,15 +20,18 @@ import requestHandler from "../utils/requestHandler";
 
 
 
-const Chat = ({ navigation, receipientName }) => {
-    navigation.setOptions({ title: receipientName ? receipientName : "Viktor Naychev" })
-
+const Chat = ({ navigation, route }) => {
+    
     const [messages, setMessages] = React.useState([]);
     const [currentMessage, onChnageText] = React.useState("");
+    
+    const params = route.params;
+    
+    navigation.setOptions({ title: params.user.firstName ? `${params.user.firstName} ${params.user.lastName}` : "Viktor Naychev" });
 
 
     const getMessages = async () => {
-        const m = await requestHandler("message", "getByRequestId", ["2"]);
+        const m = await requestHandler("message", "getByRequestId", [params.id]);
         setMessages(m);
     }
 

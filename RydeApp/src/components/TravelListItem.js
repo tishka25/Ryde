@@ -108,7 +108,13 @@ const TravelListItem = ({
                             <View style={[styles.rowContainer, styles.userInfoContainer]}>
                                 <Image
                                     style={styles.profileImage}
-                                    source={{ uri: user.picture }}
+                                    source={(()=> {
+                                        if(user.picture){
+                                            return { uri: user.picture };
+                                        }else{
+                                            return require("../assets/defaultPicture.jpg")
+                                        }
+                                    })()}
                                 />
                                 <Text>{user.firstName} {user.lastName}</Text>
                             </View>

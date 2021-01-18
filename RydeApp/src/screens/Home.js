@@ -20,11 +20,8 @@ const Home = (props) => {
 
     const [offers, setOffers] = useState([]);
 
-    const navigation = useNavigation();
 
     async function loadOffers() {
-        // console.log(offers)
-        // console.log(requestHandler("offer", "getAll"))
         const response = await requestHandler("offer", "getAll");
         console.log("Offers:", response);
         if (JSON.stringify(response) !== JSON.stringify(offers))
