@@ -67,7 +67,7 @@ const Chat = ({ navigation, route }) => {
             clearTimeout(getMessagesTimeout);
             getMessagesTimeout = setTimeout(async () => {
                 await getMessages();
-            }, 1000);
+            }, 200);
 
             return () => console.log("UNFOCUS")
         }, [messages])
